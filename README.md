@@ -42,6 +42,40 @@ in `images/thumbs/day-07.jpg`), then change that day's entry in
 (and the same for `"thumb"`), and run `python3 deploy.py`.
 The design does not change at all.
 
+## Offline flipbook (download)
+
+The page has a "Download flipbook" button. It gives one single HTML
+file (`highlights-of-eastern-europe-flipbook.html`, about 24 MB) that
+flips through the days like a book — swipe or tap to turn pages — with
+the music playing (Canon in D by default, switchable to Chopin and to
+"My Perfect Valentine"). Everything is inside the file: the day
+pictures and the three songs are embedded, so it works fully offline
+once downloaded, with no internet needed.
+
+To rebuild it (for example when Days 11, 12 and 13 are added), run:
+
+    python3 build_flipbook.py
+
+It reads `trips.json` and includes every day that has a picture, so
+new days are picked up automatically. It also re-embeds the three
+music files from `music/`.
+
+The flipbook is far too big for the Vercel deploy path (single-file
+cap about 95 KB), so it is published through this GitHub repo and the
+jsDelivr CDN instead. After rebuilding it, commit it and push to both
+branches, then check the CDN link serves it:
+
+    git add highlights-of-eastern-europe-flipbook.html
+    git commit -m "Flipbook: ..."
+    git push origin master:main
+    git push origin master
+
+It is then served at
+`https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/highlights-of-eastern-europe-flipbook.html`,
+which is the link the "Download flipbook" button on the page uses.
+The button itself lives in `index.html` and is deployed with
+`python3 deploy.py` like the rest of the page.
+
 ## What is in this folder
 
 - `index.html` — the page itself (the design, the swipe carousel, the music button).
@@ -68,6 +102,10 @@ The design does not change at all.
   Valentine", written by James for Christmin (an original
   recording, `music/my-perfect-valentine.mp3`).
 - `deploy.py` — publishes the folder to Vercel.
+- `build_flipbook.py` — builds the offline flipbook
+  (`highlights-of-eastern-europe-flipbook.html`, about 24 MB) from
+  `trips.json`, the web-sized day pictures and the three music files.
+  See "Offline flipbook" above.
 - `.project.json` — created automatically the first time you publish;
   it remembers which Vercel project this is. Do not delete it.
 
