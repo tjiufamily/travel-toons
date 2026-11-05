@@ -77,9 +77,9 @@ const TRIPS = {
           "blurb": "Budapest in a day, and an evening cruise on the Danube.",
           "date": "Mon 9 Nov 2026",
           "day": 8,
-          "image": null,
+          "image": "images/day-08.jpg",
           "place": "Budapest",
-          "thumb": null,
+          "thumb": "images/thumbs/day-08.jpg",
           "title": "Budapest"
         },
         {
