@@ -208,9 +208,13 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 <script>
 /* Images and music live in the public GitHub repo (tjiufamily/travel-toons)
    and are served here through the jsDelivr CDN, with the right file types.
-   Set CDN to '' to serve them from this site instead. */
+   Set CDN to '' to serve them from this site instead.
+   Absolute URLs pass through untouched: the Canon file is pinned to the
+   commit that added it, because jsDelivr's @main branch lags new commits
+   and returned 404 for it after the push (the @main URL serves the same
+   file once jsDelivr syncs). */
 const CDN = 'https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main';
-const asset = p => p ? (CDN ? CDN + '/' + p : p) : null;
+const asset = p => p ? (p.indexOf('://') > 0 ? p : (CDN ? CDN + '/' + p : p)) : null;
 let TRIP = null, idx = 0;
 const slidesEl = document.getElementById('slides'),
       captionEl = document.getElementById('caption'),

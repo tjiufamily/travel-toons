@@ -133,7 +133,7 @@ const TRIPS = {
       "music": {
         "autoplay": true,
         "composer": "Johann Pachelbel",
-        "file": "music/pachelbel-canon-in-d.mp3",
+        "file": "https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@06b07321a1fbc2a0269af45b51f5ca168015ec21/music/pachelbel-canon-in-d.mp3",
         "licence": "Public-domain work",
         "note": "James and Christmin's wedding song, chosen as the page's background music.",
         "performer": "Uncredited compilation recording",
