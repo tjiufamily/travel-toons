@@ -21,7 +21,9 @@ The first trip on it is **Highlights of Eastern Europe** (November 2026).
    cover picture, music file, and the list of days. For any day whose
    cartoon is not ready yet, write `"image": null` — the page will
    show a pretty "Coming soon" card for that day, and it will fill in
-   automatically once the picture is added.
+   automatically once the picture is added. Do not touch the site
+   hero (`images/hero.jpg`) — it is the same for every trip, and each
+   trip's own cover is its own Day 1 picture.
 4. **Music (optional).** If the new trip needs its own song, put the
    MP3 file in the `music/` folder and name it in the trip's entry.
    Only use music that is free to use — for example a public-domain
@@ -44,7 +46,19 @@ The design does not change at all.
 
 - `index.html` — the page itself (the design, the swipe carousel, the music button).
 - `trips.json` — all the words and pictures for every trip. This is the
-  only file you need to edit to add a trip or a day.
+  only file you need to edit to add a trip or a day. It is a list of
+  trips (an array), so the site is built for many trips, not just one:
+  each trip has its own name, dates, dedication, cover (its own Day 1),
+  music and days. The page currently shows the first trip in the list;
+  when a second trip is added, the home page will need a trip list so
+  visitors can choose a trip — the data is ready, the chooser is not
+  built yet.
+- `images/hero.jpg` — the generic site hero at the top of the page: a
+  travelling couple looking over a golden valley at sunset. It belongs
+  to the whole site, not to any one trip, and it never changes when a
+  new trip is added. It was drawn for this site (not a photo, no credit
+  needed). A trip's own cover is its own Day 1 picture, shown in the
+  carousel, not here.
 - `images/` — the web-sized cartoon pictures and their small previews.
   These live in the GitHub repo too and are served to the page through
   the jsDelivr CDN (see the `CDN` line at the top of `index.html`),
@@ -57,9 +71,39 @@ The design does not change at all.
 - `.project.json` — created automatically the first time you publish;
   it remembers which Vercel project this is. Do not delete it.
 
+## Password protection (same as Cornerstone)
+
+The page is family-only, with the same sign-in as Cornerstone: the family
+email (`tjiunardi.family@gmail.com`) plus the same family password.
+The gate works exactly like Cornerstone's: `api/login.js` checks the
+password against a salted scrypt hash in the `TRAVEL_TOONS_PASSWORD_HASH`
+environment variable, sets a signed 90-day cookie, and the trip data is
+served only to a signed-in session via `api/trip.js` (so `trips.json`
+itself is never published as a file). The password and its hash are
+never written into any file.
+
+To set the secrets on Vercel (one-off, after a fresh project): run
+`python3 set_env.py` in this folder and type the family password when
+asked. It hashes the password and creates both
+`TRAVEL_TOONS_PASSWORD_HASH` and `TRAVEL_TOONS_SESSION_SECRET` as
+sensitive production env vars. Then redeploy.
+
+Note: the cartoon pictures and the music are still served from the
+public GitHub repo through the jsDelivr CDN, so anyone who already
+knows a direct picture or music link can open that single file. The
+page itself — the trip, the dedication, the carousel — is behind the
+sign-in. Moving the pictures behind the sign-in too would mean moving
+them off the public repo into protected storage; that is a separate job.
+
+## Editing trips.json
+
+`trips.json` is the local source of truth, but it is no longer deployed
+as a file. After editing it, run `python3 regen_trip.py` (it embeds the
+JSON into `api/trip.js`), then run `python3 deploy.py` as usual.
+
 ## Notes
 
-- The page is public, with no sign-in and no data collected.
+- The page is family-only, with no data collected.
 - The music never plays by itself — visitors tap the music button.
 - The original full-size cartoons stay in
   `~/workspace/gemini-gems/travel-toon-director/images/` and are

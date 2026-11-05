@@ -3,11 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Highlights of Eastern Europe — A Travel Toon Journey</title>
-<meta name="description" content="Thirteen days across Eastern Europe, told in cartoons. A travel toon journey, dedicated to Christmin.">
-<meta property="og:title" content="Highlights of Eastern Europe — A Travel Toon Journey">
-<meta property="og:description" content="Thirteen days across Eastern Europe, told in cartoons. Dedicated to Christmin.">
-<meta property="og:image" content="images/day-01.jpg">
+<title>Travel Toons — Our Cartoon Trips</title>
+<meta name="description" content="Our travel cartoons, one trip at a time. Family only.">
 <style>
 :root{
   --ink:#f5efe4; --ink-dim:#cfc4ae; --gold:#d9a441; --gold-soft:#e8c37a;
@@ -92,23 +89,63 @@ footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 20px 90px;text-al
 footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#f7ead0;margin-bottom:10px}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
 .reveal.in{opacity:1;transform:none}
+.hidden{display:none}
+/* ---------- Login (same family gate as Cornerstone) ---------- */
+.login-wrap{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 120% at 20% 10%,#2b2118 0%,#171310 55%,#0d0b09 100%)}
+.login-card{max-width:420px;width:100%;border:1px solid var(--line);border-radius:20px;padding:36px 32px;background:rgba(13,11,9,.7);text-align:center}
+.login-card h1{font-size:2rem;margin-bottom:8px}
+.login-sub{color:var(--ink-dim);margin-bottom:24px}
+.login-card label{display:block;text-align:left;font-size:.85rem;letter-spacing:.08em;color:var(--gold-soft);margin:14px 0 6px}
+.login-card input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#0d0b09;color:var(--ink);font-size:1rem;font-family:var(--sans)}
+.login-card button{margin-top:22px;width:100%;padding:13px;border-radius:999px;border:1px solid var(--gold);background:var(--gold);color:#14100c;font-size:1rem;cursor:pointer;font-family:var(--sans)}
+.login-card button:disabled{opacity:.6;cursor:wait}
+.login-error{color:#f0a35e;min-height:1.4em;margin-top:12px;font-size:.92rem}
+.login-note{color:var(--ink-dim);font-size:.85rem;margin-top:16px}
+/* ---------- Dedication (site level, for every trip) ---------- */
+.dedication-section{text-align:center}
+.dedication-section h2{margin-bottom:20px}
+.dedication-text{font-family:var(--serif);font-size:clamp(1.05rem,2.4vw,1.3rem);line-height:1.85;color:#f7ead0;max-width:680px;margin:0 auto;text-align:left}
+.dedication-text p{margin-bottom:16px}
+.logout-link{background:none;border:none;color:var(--ink-dim);font-size:.85rem;cursor:pointer;text-decoration:underline;margin-top:14px;font-family:var(--sans)}
 </style>
 </head>
 <body>
 
+<div id="loginView" class="login-wrap">
+  <div class="login-card">
+    <h1>Travel Toons</h1>
+    <p class="login-sub">Our cartoon trips, told one day at a time. Family only — please sign in with the family login.</p>
+    <form id="loginForm" autocomplete="on">
+      <label for="email">Family email</label>
+      <input id="email" name="email" type="email" autocomplete="username" placeholder="tjiunardi.family@gmail.com" required>
+      <label for="password">Family password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Family password" required>
+      <button type="submit" id="loginBtn">Sign in</button>
+      <p id="loginError" class="login-error" role="alert"></p>
+    </form>
+    <p class="login-note">Family only. Your sign-in is remembered on this device for 90 days.</p>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
 <header class="hero">
-  <img class="hero-img" id="heroImg" src="images/day-01.jpg" alt="Day 1 — Highlights of Eastern Europe cartoon: Munich to Prague">
+  <img class="hero-img" id="heroImg" src="" alt="">
   <div class="hero-inner">
-    <p class="eyebrow">A travel toon journey · 2 – 14 November 2026</p>
-    <h1>Highlights of<br>Eastern Europe</h1>
-    <p class="hero-sub">Thirteen days, six cities, one cartoon at a time.</p>
-    <p><span class="dedication">Dedicated to <b>Christmin</b> — my love, my travelling companion.</span></p>
-    <p class="hero-meta">Munich · Prague · Dresden · Berlin · Wrocław · Kraków · Budapest · Vienna · Salzburg · Munich</p>
+    <p class="eyebrow" id="heroEyebrow"></p>
+    <h1 id="heroTitle"></h1>
+    <p class="hero-sub" id="heroSub"></p>
+    <p><span class="dedication" id="heroDedication"></span></p>
+    <p class="hero-meta" id="heroMeta"></p>
     <p class="scroll-cue"><span>↓</span> Swipe through our days</p>
   </div>
 </header>
 
 <main>
+  <section id="dedication" class="dedication-section reveal">
+    <h2 id="dedicationHeading"></h2>
+    <div class="dedication-text" id="dedicationText"></div>
+  </section>
+
   <section id="journey" class="reveal">
     <h2>The journey, day by day</h2>
     <p class="section-lede">Each day of the trip became one cartoon — six panels, one picture. Swipe across, or tap a day below. Days 7 to 13 are still being drawn, and will appear here as they arrive.</p>
@@ -143,15 +180,17 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 </div>
 
 <footer>
-  <p class="ded">Dedicated to Christmin — my love, my travelling companion.</p>
-  <p>Highlights of Eastern Europe · November 2026 · Drawn with Gemini, shared with love.</p>
+  <p class="ded" id="footerDed"></p>
+  <p id="footerTrip"></p>
   <p id="footerCredit"></p>
+  <p><button class="logout-link" id="logoutBtn" type="button">Sign out</button></p>
 </footer>
 
 <button class="music-fab" id="musicFab" aria-label="Play music" aria-pressed="false">
   <span class="eq"><i></i><i></i><i></i><i></i></span>
   <span id="musicLabel">Play our song ♫</span>
 </button>
+</div><!-- /appView -->
 <audio id="audio" loop preload="none"></audio>
 
 <script>
@@ -167,9 +206,41 @@ const slidesEl = document.getElementById('slides'),
       stripEl = document.getElementById('strip'),
       barEl = document.getElementById('progressBar');
 
-fetch('trips.json').then(r => r.json()).then(data => {
+/* Family gate, same as Cornerstone: the trip data only loads after sign-in. */
+function showLogin() {
+  document.getElementById('appView').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+}
+function showApp() {
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('appView').classList.remove('hidden');
+}
+async function loadTrip() {
+  const s = await fetch('/api/session');
+  if (!s.ok) { showLogin(); return; }
+  showApp();
+  const r = await fetch('/api/trip');
+  if (!r.ok) { showLogin(); return; }
+  const data = await r.json();
   TRIP = data.trips[0];
-  document.getElementById('heroImg').src = asset(TRIP.cover);
+  document.title = TRIP.title + ' — A Travel Toon Journey';
+  /* Site hero: a generic travel illustration, the same for every trip.
+     It is NOT a day's cartoon and NOT any trip's cover — each trip keeps
+     its own cover (its own Day 1) in the carousel below. */
+  document.getElementById('heroImg').src = asset('images/hero.jpg');
+  document.getElementById('heroImg').alt = 'A travelling couple looking over a golden valley at sunset';
+  document.getElementById('heroEyebrow').textContent = 'A travel toon journey · ' + TRIP.dates;
+  document.getElementById('heroTitle').textContent = TRIP.title;
+  document.getElementById('heroSub').textContent = TRIP.subtitle;
+  document.getElementById('heroDedication').textContent = TRIP.dedication;
+  document.getElementById('heroMeta').textContent = TRIP.route;
+  document.getElementById('footerDed').textContent = TRIP.dedication;
+  document.getElementById('footerTrip').textContent = TRIP.title + ' · ' + TRIP.dates + ' · Drawn with Gemini, shared with love.';
+  /* Dedication introduction: rendered from the gated data, in three paragraphs. */
+  document.getElementById('dedicationHeading').textContent = 'For Christmin';
+  const intro = data.dedicationIntro || '';
+  const paras = intro.split(/(?<=\.)\s+(?=You are the reason|Thank you for being)/);
+  document.getElementById('dedicationText').innerHTML = paras.map(p => '<p>' + p + '</p>').join('');
   document.getElementById('route').innerHTML = TRIP.route.split('·').map(s => '<span>' + s.trim() + '</span>').join('<i>→</i>');
   const m = TRIP.music;
   const credit = m.title + ' — ' + m.composer + ', performed by ' + m.performer + ' (' + m.source + ', ' + m.licence + '). ' + m.note;
@@ -177,7 +248,31 @@ fetch('trips.json').then(r => r.json()).then(data => {
   document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + ').';
   document.getElementById('audio').src = asset(m.file);
   build();
-}).catch(() => { captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
+}
+loadTrip().catch(() => { showLogin(); captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
+
+document.getElementById('loginForm').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const btn = document.getElementById('loginBtn'), err = document.getElementById('loginError');
+  btn.disabled = true; btn.textContent = 'Signing in…'; err.textContent = '';
+  try {
+    const r = await fetch('/api/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: document.getElementById('email').value, password: document.getElementById('password').value })
+    });
+    const out = await r.json().catch(() => ({}));
+    if (!r.ok) { err.textContent = out.error || 'Sign-in failed. Please try again.'; return; }
+    await loadTrip();
+  } catch (e) {
+    err.textContent = 'Could not reach the server. Check your connection and try again.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Sign in';
+  }
+});
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  try { await fetch('/api/logout', { method: 'POST' }); } catch (e) {}
+  TRIP = null; showLogin();
+});
 
 function build(){
   TRIP.days.forEach((d, i) => {
