@@ -104,9 +104,9 @@ const TRIPS = {
           "blurb": "The fairytale castle of Neuschwanstein, and back to Munich.",
           "date": "Thu 12 Nov 2026",
           "day": 11,
-          "image": null,
+          "image": "images/day-11.jpg",
           "place": "Neuschwanstein \u00b7 F\u00fcssen \u00b7 Munich",
-          "thumb": null,
+          "thumb": "images/thumbs/day-11.jpg",
           "title": "Neuschwanstein & Munich"
         },
         {
