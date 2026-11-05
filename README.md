@@ -65,7 +65,7 @@ The design does not change at all.
   because Vercel's file-upload path cannot take single files over
   about 95 KB. Nothing to do — it just works.
 - `music/` — the song for each trip. Eastern Europe uses "My Perfect
-  Valentine", written and sung by James for Christmin (a family
+  Valentine", written by James for Christmin (a family
   original, `music/my-perfect-valentine.mp3`).
 - `deploy.py` — publishes the folder to Vercel.
 - `.project.json` — created automatically the first time you publish;
@@ -110,13 +110,14 @@ JSON into `api/trip.js`), then run `python3 deploy.py` as usual.
   `images/apple-touch-icon.png`, all cropped from the generic hero
   artwork. The icons live in the GitHub repo and are served through
   the jsDelivr CDN, like the other pictures.
-- Music: two tracks. The Chopin waltz AUTOPLAYS when the page opens,
-  after sign-in (James's word, 5 Nov 2026: "I want Chopin to auto
-  play"). "My Perfect Valentine" never autoplays — it plays only when
-  the listener taps its track button. The floating button plays or
-  pauses whichever track is current, and its label names that track.
-  If a browser blocks the autoplay, the button offers a tap to start
-  the Chopin instead.
+- Music: three tracks. Pachelbel's Canon in D AUTOPLAYS when the page
+  opens, after sign-in (James's word, 5 Nov 2026: "Canon is default";
+  it is James and Christmin's wedding song). The Chopin waltz and "My
+  Perfect Valentine" never autoplay — they play only when the listener
+  taps their track button. The floating button plays or pauses
+  whichever track is current, and its label names that track. If a
+  browser blocks the autoplay, the button offers a tap to start the
+  Canon instead.
 - The original full-size cartoons stay in
   `~/workspace/gemini-gems/travel-toon-director/images/` and are
   not published here; only the smaller web copies are.

@@ -68,7 +68,7 @@ const TRIPS = {
           "blurb": "Across the High Tatras and Slovakia to Budapest, on the Danube.",
           "date": "Sun 8 Nov 2026",
           "day": 7,
-          "image": null,
+          "image": "images/day-07.jpg",
           "place": "High Tatras \u00b7 Slovakia \u00b7 Budapest",
           "thumb": null,
           "title": "Krak\u00f3w to Budapest"
@@ -86,7 +86,7 @@ const TRIPS = {
           "blurb": "Parndorf outlet village, then Sch\u00f6nbrunn Palace and Vienna.",
           "date": "Tue 10 Nov 2026",
           "day": 9,
-          "image": null,
+          "image": "images/day-09.jpg",
           "place": "Parndorf \u00b7 Vienna",
           "thumb": null,
           "title": "Parndorf & Vienna"
@@ -132,6 +132,26 @@ const TRIPS = {
       "id": "highlights-of-eastern-europe",
       "music": {
         "autoplay": true,
+        "composer": "Johann Pachelbel",
+        "file": "music/pachelbel-canon-in-d.mp3",
+        "licence": "Public-domain work",
+        "note": "James and Christmin's wedding song, chosen as the page's background music.",
+        "performer": "Uncredited compilation recording",
+        "source": "Internet Archive",
+        "title": "Canon in D major"
+      },
+      "dedicatedSong": {
+        "composer": "James Tjiunardi",
+        "file": "music/my-perfect-valentine.mp3",
+        "licence": "Family original",
+        "note": "Written by James for Christmin \u2014 his Valentine, his travelling partner for life.",
+        "source": "Written by James for Christmin",
+        "title": "My Perfect Valentine"
+      },
+      "route": "Munich \u00b7 Prague \u00b7 Dresden \u00b7 Berlin \u00b7 Wroc\u0142aw \u00b7 Krak\u00f3w \u00b7 Budapest \u00b7 Vienna \u00b7 Salzburg \u00b7 Munich",
+      "subtitle": "A cartoon journey in thirteen days",
+      "title": "Highlights of Eastern Europe",
+      "secondTrack": {
         "composer": "Fr\u00e9d\u00e9ric Chopin",
         "file": "music/chopin-waltz-op64-no2.mp3",
         "licence": "Public domain \u2014 CC0 1.0",
@@ -139,19 +159,7 @@ const TRIPS = {
         "performer": "Aaron Dunn",
         "source": "Musopen, via the Internet Archive",
         "title": "Waltz in C-sharp minor, Op. 64 No. 2"
-      },
-      "dedicatedSong": {
-        "composer": "James Tjiunardi",
-        "file": "music/my-perfect-valentine.mp3",
-        "licence": "Family original",
-        "note": "James wrote and sang this song for Christmin \u2014 his Valentine, his travelling partner for life.",
-        "performer": "James Tjiunardi",
-        "source": "Written and sung by James for Christmin",
-        "title": "My Perfect Valentine"
-      },
-      "route": "Munich \u00b7 Prague \u00b7 Dresden \u00b7 Berlin \u00b7 Wroc\u0142aw \u00b7 Krak\u00f3w \u00b7 Budapest \u00b7 Vienna \u00b7 Salzburg \u00b7 Munich",
-      "subtitle": "A cartoon journey in thirteen days",
-      "title": "Highlights of Eastern Europe"
+      }
     }
   ],
   "dedicationIntro": "Christmin, my love, this page is for you. You gave up a classroom you had served for twenty-four years, so that you could walk beside me into the world. You did not just come along. You chose this, you chose us, and every mile since has been better because you chose it. You are the reason our trips feel the way they do. You pack with a care no one sees, the warm coat, the snack for the long ride, the little thing that turns a cold morning into a comfortable one. You notice beauty first and point it out, so I look again and see it too. You turn a long journey into a conversation, a wrong turn into a story, and a strange city into a place that feels like home, because you are in it. Thank you for being my wife, my best friend, and my fellow traveller. These drawings are only drawings. The real story is you, beside me, every day of the journey. I love you."

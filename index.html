@@ -185,9 +185,10 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 <div class="music-note reveal">
   <p><b>Now playing:</b> <span id="nowPlaying"></span></p>
   <p><span id="musicCredit"></span></p>
-  <p><button class="track-btn" id="trackChopin" type="button">▶ Chopin — Waltz in C-sharp minor</button>
-     <button class="track-btn" id="trackValentine" type="button">▶ My Perfect Valentine — written and sung by James for Christmin</button></p>
-  <p>Tap the music button at the bottom right to play or pause, or tap a track above to switch. The Chopin waltz starts playing when the page opens; "My Perfect Valentine" plays only when you choose it.</p>
+  <p><button class="track-btn" id="trackCanon" type="button">▶ Canon in D — Pachelbel</button>
+     <button class="track-btn" id="trackChopin" type="button">▶ Chopin — Waltz in C-sharp minor</button>
+     <button class="track-btn" id="trackValentine" type="button">▶ My Perfect Valentine — written by James for Christmin</button></p>
+  <p>Tap the music button at the bottom right to play or pause, or tap a track above to switch. Pachelbel's Canon in D starts playing when the page opens; the Chopin waltz and "My Perfect Valentine" play only when you choose them.</p>
 </div>
 
 <footer>
@@ -253,30 +254,31 @@ async function loadTrip() {
   const paras = intro.split(/(?<=\.)\s+(?=You are the reason|Thank you for being)/);
   document.getElementById('dedicationText').innerHTML = paras.map(p => '<p>' + p + '</p>').join('');
   document.getElementById('route').innerHTML = TRIP.route.split('·').map(s => '<span>' + s.trim() + '</span>').join('<i>→</i>');
-  /* Music: two tracks. The Chopin waltz AUTOPLAYS when the page opens
-     (James's word, 5 Nov 2026: "I want Chopin to auto play"). His song
-     "My Perfect Valentine" never autoplays — it plays only when the
-     listener taps its track button. */
-  const m = TRIP.music, song = TRIP.dedicatedSong;
+  /* Music: three tracks. Pachelbel's Canon in D AUTOPLAYS when the page
+     opens (James's word, 5 Nov 2026: "Canon is default"). The Chopin
+     waltz and his song "My Perfect Valentine" never autoplay — they play
+     only when the listener taps their track button. */
+  const m = TRIP.music, second = TRIP.secondTrack, song = TRIP.dedicatedSong;
   const credit = m.title + ' — ' + m.composer + ', performed by ' + m.performer + ' (' + m.source + ', ' + m.licence + '). ' + m.note;
   document.getElementById('musicCredit').textContent = credit;
-  document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + '). Also on this page: "' + song.title + '", written and sung by James for Christmin.';
-  currentTrack = { key: 'chopin', title: 'Chopin', file: m.file };
+  document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + '). Also on this page: "' + second.title + '" by ' + second.composer + ', performed by ' + second.performer + ' (' + second.source + ', ' + second.licence + '); and "' + song.title + '", written by James for Christmin.';
+  currentTrack = { key: 'canon', title: 'Canon in D', file: m.file };
   document.getElementById('nowPlaying').textContent = m.title + ' — ' + m.composer;
+  document.getElementById('trackCanon').textContent = '▶ Canon in D — Pachelbel';
   document.getElementById('trackChopin').textContent = '▶ Chopin — Waltz in C-sharp minor';
-  document.getElementById('trackValentine').textContent = '▶ ' + song.title + ' — written and sung by James for Christmin';
-  document.getElementById('trackChopin').classList.add('active');
-  /* Chopin autoplay: src is set as soon as the trip loads (after sign-in,
+  document.getElementById('trackValentine').textContent = '▶ ' + song.title + ' — written by James for Christmin';
+  document.getElementById('trackCanon').classList.add('active');
+  /* Canon autoplay: src is set as soon as the trip loads (after sign-in,
      so the sign-in tap already counts as interaction with the page), and
      play() is attempted at once. If the browser still blocks it, the
      button offers a tap to start it — nothing is hidden. */
   document.getElementById('audio').src = asset(m.file);
   audio.play().then(() => {
     fab.classList.add('playing'); fab.setAttribute('aria-pressed','true');
-    label.textContent = 'Playing Chopin ♫'; fab.setAttribute('aria-label','Pause music');
+    label.textContent = 'Playing Canon in D ♫'; fab.setAttribute('aria-label','Pause music');
   }).catch(() => {
     fab.classList.remove('playing'); fab.setAttribute('aria-pressed','false');
-    label.textContent = 'Tap to play Chopin ♫'; fab.setAttribute('aria-label','Play music');
+    label.textContent = 'Tap to play Canon in D ♫'; fab.setAttribute('aria-label','Play music');
   });
   build();
 }
@@ -378,10 +380,10 @@ stage.addEventListener('pointerup', e => {
 });
 stage.addEventListener('pointercancel', () => { dragging = false; startX = null; });
 
-/* Music controls. Chopin autoplays on load (see loadTrip); the dedicated
-   song never autoplays — it starts only from its track button below.
-   The floating button plays/pauses whichever track is current, and its
-   label always names that track. */
+/* Music controls. The Canon autoplays on load (see loadTrip); the Chopin
+   waltz and the dedicated song never autoplay — they start only from
+   their track buttons below. The floating button plays/pauses whichever
+   track is current, and its label always names that track. */
 let currentTrack = null;   /* { key, title, file } — set by loadTrip */
 const audio = document.getElementById('audio'),
       fab = document.getElementById('musicFab'),
@@ -396,11 +398,12 @@ function setPausedUI() {
 }
 function playTrack(key) {
   if (!TRIP) return;
-  const t = key === 'valentine' ? TRIP.dedicatedSong : TRIP.music;
-  currentTrack = { key: key, title: key === 'valentine' ? t.title : 'Chopin', file: t.file };
+  const t = key === 'valentine' ? TRIP.dedicatedSong : key === 'chopin' ? TRIP.secondTrack : TRIP.music;
+  currentTrack = { key: key, title: key === 'canon' ? 'Canon in D' : key === 'chopin' ? 'Chopin' : t.title, file: t.file };
   document.getElementById('nowPlaying').textContent = key === 'valentine'
-    ? t.title + ' — written and sung by James for Christmin'
+    ? t.title + ' — written by James for Christmin'
     : t.title + ' — ' + t.composer;
+  document.getElementById('trackCanon').classList.toggle('active', key === 'canon');
   document.getElementById('trackChopin').classList.toggle('active', key === 'chopin');
   document.getElementById('trackValentine').classList.toggle('active', key === 'valentine');
   audio.src = asset(t.file);
@@ -415,6 +418,7 @@ fab.onclick = () => {
     setPausedUI();
   }
 };
+document.getElementById('trackCanon').onclick = () => playTrack('canon');
 document.getElementById('trackChopin').onclick = () => playTrack('chopin');
 document.getElementById('trackValentine').onclick = () => playTrack('valentine');
 
