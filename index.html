@@ -85,6 +85,8 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,4vw,2.3rem);m
 @keyframes eq{0%,100%{height:4px}50%{height:16px}}
 .music-note{max-width:1100px;margin:0 auto;padding:0 clamp(16px,4vw,40px) clamp(36px,7vw,72px);color:var(--ink-dim);font-size:.9rem}
 .music-note b{color:var(--ink);font-weight:600}
+.track-btn{display:inline-block;margin:6px 8px 6px 0;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(23,19,16,.85);color:var(--ink);font-family:var(--sans);font-size:.85rem;cursor:pointer}
+.track-btn:hover,.track-btn.active{border-color:var(--gold);color:var(--gold-soft)}
 footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 20px 90px;text-align:center;color:var(--ink-dim);font-size:.88rem}
 footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#f7ead0;margin-bottom:10px}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
@@ -175,8 +177,11 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 </main>
 
 <div class="music-note reveal">
-  <p><b>Listening:</b> <span id="musicCredit"></span></p>
-  <p>Tap the music button at the bottom right to play or pause. The music never starts on its own.</p>
+  <p><b>Now playing:</b> <span id="nowPlaying"></span></p>
+  <p><span id="musicCredit"></span></p>
+  <p><button class="track-btn" id="trackChopin" type="button">▶ Chopin — Waltz in C-sharp minor</button>
+     <button class="track-btn" id="trackValentine" type="button">▶ My Perfect Valentine — written and sung by James for Christmin</button></p>
+  <p>Tap the music button at the bottom right to play or pause, or tap a track above to switch. The Chopin waltz starts playing when the page opens; "My Perfect Valentine" plays only when you choose it.</p>
 </div>
 
 <footer>
@@ -188,7 +193,7 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 
 <button class="music-fab" id="musicFab" aria-label="Play music" aria-pressed="false">
   <span class="eq"><i></i><i></i><i></i><i></i></span>
-  <span id="musicLabel">Play My Perfect Valentine ♫</span>
+  <span id="musicLabel">Play music ♫</span>
 </button>
 </div><!-- /appView -->
 <audio id="audio" loop preload="none"></audio>
@@ -242,14 +247,31 @@ async function loadTrip() {
   const paras = intro.split(/(?<=\.)\s+(?=You are the reason|Thank you for being)/);
   document.getElementById('dedicationText').innerHTML = paras.map(p => '<p>' + p + '</p>').join('');
   document.getElementById('route').innerHTML = TRIP.route.split('·').map(s => '<span>' + s.trim() + '</span>').join('<i>→</i>');
-  const m = TRIP.music;
+  /* Music: two tracks. The Chopin waltz AUTOPLAYS when the page opens
+     (James's word, 5 Nov 2026: "I want Chopin to auto play"). His song
+     "My Perfect Valentine" never autoplays — it plays only when the
+     listener taps its track button. */
+  const m = TRIP.music, song = TRIP.dedicatedSong;
   const credit = m.title + ' — ' + m.composer + ', performed by ' + m.performer + ' (' + m.source + ', ' + m.licence + '). ' + m.note;
   document.getElementById('musicCredit').textContent = credit;
-  document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + ').';
-  /* No-autoplay hardening: the audio file is NOT loaded on page load at
-     all — its URL is kept here and only handed to the <audio> element on
-     the first tap of the music button. Nothing can play before a tap. */
-  musicUrl = asset(m.file);
+  document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + '). Also on this page: "' + song.title + '", written and sung by James for Christmin.';
+  currentTrack = { key: 'chopin', title: 'Chopin', file: m.file };
+  document.getElementById('nowPlaying').textContent = m.title + ' — ' + m.composer;
+  document.getElementById('trackChopin').textContent = '▶ Chopin — Waltz in C-sharp minor';
+  document.getElementById('trackValentine').textContent = '▶ ' + song.title + ' — written and sung by James for Christmin';
+  document.getElementById('trackChopin').classList.add('active');
+  /* Chopin autoplay: src is set as soon as the trip loads (after sign-in,
+     so the sign-in tap already counts as interaction with the page), and
+     play() is attempted at once. If the browser still blocks it, the
+     button offers a tap to start it — nothing is hidden. */
+  document.getElementById('audio').src = asset(m.file);
+  audio.play().then(() => {
+    fab.classList.add('playing'); fab.setAttribute('aria-pressed','true');
+    label.textContent = 'Playing Chopin ♫'; fab.setAttribute('aria-label','Pause music');
+  }).catch(() => {
+    fab.classList.remove('playing'); fab.setAttribute('aria-pressed','false');
+    label.textContent = 'Tap to play Chopin ♫'; fab.setAttribute('aria-label','Play music');
+  });
   build();
 }
 loadTrip().catch(() => { showLogin(); captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
@@ -350,27 +372,45 @@ stage.addEventListener('pointerup', e => {
 });
 stage.addEventListener('pointercancel', () => { dragging = false; startX = null; });
 
-/* Music toggle — never autoplays. The audio src is only set on the first
-   tap, so no music loads or plays on page load, on sign-in, or on swipe.
-   The only audio.play() call in the whole page is inside this tap handler. */
-let musicUrl = null;
+/* Music controls. Chopin autoplays on load (see loadTrip); the dedicated
+   song never autoplays — it starts only from its track button below.
+   The floating button plays/pauses whichever track is current, and its
+   label always names that track. */
+let currentTrack = null;   /* { key, title, file } — set by loadTrip */
 const audio = document.getElementById('audio'),
       fab = document.getElementById('musicFab'),
       label = document.getElementById('musicLabel');
-audio.autoplay = false;
+function setPlayingUI() {
+  fab.classList.add('playing'); fab.setAttribute('aria-pressed','true');
+  label.textContent = 'Playing ' + currentTrack.title + ' ♫'; fab.setAttribute('aria-label','Pause music');
+}
+function setPausedUI() {
+  fab.classList.remove('playing'); fab.setAttribute('aria-pressed','false');
+  label.textContent = 'Play ' + currentTrack.title + ' ♫'; fab.setAttribute('aria-label','Play music');
+}
+function playTrack(key) {
+  if (!TRIP) return;
+  const t = key === 'valentine' ? TRIP.dedicatedSong : TRIP.music;
+  currentTrack = { key: key, title: key === 'valentine' ? t.title : 'Chopin', file: t.file };
+  document.getElementById('nowPlaying').textContent = key === 'valentine'
+    ? t.title + ' — written and sung by James for Christmin'
+    : t.title + ' — ' + t.composer;
+  document.getElementById('trackChopin').classList.toggle('active', key === 'chopin');
+  document.getElementById('trackValentine').classList.toggle('active', key === 'valentine');
+  audio.src = asset(t.file);
+  audio.play().then(setPlayingUI).catch(() => { label.textContent = 'Tap to play ' + currentTrack.title + ' ♫'; });
+}
 fab.onclick = () => {
+  if (!currentTrack) return;
   if (audio.paused) {
-    if (!audio.src && musicUrl) { audio.src = musicUrl; }
-    audio.play().then(() => {
-      fab.classList.add('playing'); fab.setAttribute('aria-pressed','true');
-      label.textContent = 'Playing My Perfect Valentine ♫'; fab.setAttribute('aria-label','Pause music');
-    }).catch(() => { label.textContent = 'Tap again to play ♫'; });
+    audio.play().then(setPlayingUI).catch(() => { label.textContent = 'Tap again to play ♫'; });
   } else {
     audio.pause();
-    fab.classList.remove('playing'); fab.setAttribute('aria-pressed','false');
-    label.textContent = 'Play My Perfect Valentine ♫'; fab.setAttribute('aria-label','Play music');
+    setPausedUI();
   }
 };
+document.getElementById('trackChopin').onclick = () => playTrack('chopin');
+document.getElementById('trackValentine').onclick = () => playTrack('valentine');
 
 /* Reveal on scroll */
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), {threshold:.12});

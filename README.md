@@ -104,11 +104,13 @@ JSON into `api/trip.js`), then run `python3 deploy.py` as usual.
 ## Notes
 
 - The page is family-only, with no data collected.
-- The music never plays by itself — visitors tap the music button.
-  The audio file is not even loaded on page load: its URL is only
-  handed to the player on the first tap, so nothing can autoplay
-  (fixed 5 Nov 2026 after the Chopin track was heard playing on its
-  own on a phone).
+- Music: two tracks. The Chopin waltz AUTOPLAYS when the page opens,
+  after sign-in (James's word, 5 Nov 2026: "I want Chopin to auto
+  play"). "My Perfect Valentine" never autoplays — it plays only when
+  the listener taps its track button. The floating button plays or
+  pauses whichever track is current, and its label names that track.
+  If a browser blocks the autoplay, the button offers a tap to start
+  the Chopin instead.
 - The original full-size cartoons stay in
   `~/workspace/gemini-gems/travel-toon-director/images/` and are
   not published here; only the smaller web copies are.
