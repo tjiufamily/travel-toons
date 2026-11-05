@@ -113,9 +113,9 @@ const TRIPS = {
           "blurb": "One last morning in Munich, then homeward on SQ327.",
           "date": "Fri 13 Nov 2026",
           "day": 12,
-          "image": null,
+          "image": "images/day-12.jpg",
           "place": "Munich",
-          "thumb": null,
+          "thumb": "images/thumbs/day-12.jpg",
           "title": "Munich Departure"
         },
         {
