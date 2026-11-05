@@ -122,9 +122,9 @@ const TRIPS = {
           "blurb": "Home again, with thirteen days of stories to tell.",
           "date": "Sat 14 Nov 2026",
           "day": 13,
-          "image": null,
+          "image": "images/day-13.jpg",
           "place": "Singapore",
-          "thumb": null,
+          "thumb": "images/thumbs/day-13.jpg",
           "title": "Arrive Singapore"
         }
       ],
