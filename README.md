@@ -1,5 +1,8 @@
 # Travel Toons — our cartoon trips
 
+Live page: https://travel-toons-tjiufamilys-projects.vercel.app/
+Pictures and music: https://github.com/tjiufamily/travel-toons
+
 A beautiful page that shows our travel cartoons, one trip at a time.
 The first trip on it is **Highlights of Eastern Europe** (November 2026).
 
