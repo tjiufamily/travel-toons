@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   const ok = allowed && lib.verifyPassword(password, stored);
   if (!ok) {
     await new Promise(r => setTimeout(r, 600));
-    res.status(401).json({ ok: false, error: "That email and password do not match our family login. Please check and try again." });
+    res.status(401).json({ ok: false, error: "That email and password do not match. Please check and try again." });
     return;
   }
   const session = lib.signSession(email);
