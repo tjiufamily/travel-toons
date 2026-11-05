@@ -24,8 +24,11 @@ function verifyPassword(password, stored) {
   return expected.length === actual.length && crypto.timingSafeEqual(expected, actual);
 }
 
-function signSession(email) {
-  const payload = Buffer.from(JSON.stringify({ e: email, exp: Math.floor(Date.now() / 1000) + MAX_AGE })).toString("base64url");
+/* maxAge is seconds until the session expires; default is the normal
+   90-day sign-in. */
+function signSession(email, maxAge) {
+  const exp = Math.floor(Date.now() / 1000) + (maxAge || MAX_AGE);
+  const payload = Buffer.from(JSON.stringify({ e: email, exp })).toString("base64url");
   const sig = crypto.createHmac("sha256", process.env.TRAVEL_TOONS_SESSION_SECRET || "").update(payload).digest("base64url");
   return payload + "." + sig;
 }

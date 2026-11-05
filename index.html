@@ -93,11 +93,14 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,4vw,2.3rem);m
 .music-note b{color:var(--ink);font-weight:600}
 .track-btn{display:inline-block;margin:6px 8px 6px 0;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(23,19,16,.85);color:var(--ink);font-family:var(--sans);font-size:.85rem;cursor:pointer}
 .track-btn:hover,.track-btn.active{border-color:var(--gold);color:var(--gold-soft)}
+.download-btn{display:inline-block;margin:10px 0 4px;padding:12px 22px;border:1px solid var(--gold);border-radius:999px;background:var(--gold);color:#14100c;font-family:var(--sans);font-size:1rem;cursor:pointer}
+.download-btn:disabled{opacity:.6;cursor:wait}
+.download-btn:hover{filter:brightness(1.08)}
 footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 20px 90px;text-align:center;color:var(--ink-dim);font-size:.88rem}
 footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#f7ead0;margin-bottom:10px}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
 .reveal.in{opacity:1;transform:none}
-.hidden{display:none}
+.hidden{display:none!important}
 /* ---------- Login (same sign-in gate as Cornerstone) ---------- */
 .login-wrap{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 120% at 20% 10%,#2b2118 0%,#171310 55%,#0d0b09 100%)}
 .login-card{max-width:420px;width:100%;border:1px solid var(--line);border-radius:20px;padding:36px 32px;background:rgba(13,11,9,.7);text-align:center}
@@ -112,6 +115,8 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 .login-card button:disabled{opacity:.6;cursor:wait}
 .login-error{color:#f0a35e;min-height:1.4em;margin-top:12px;font-size:.92rem}
 .login-note{color:var(--ink-dim);font-size:.85rem;margin-top:16px}
+.guest-link{background:none;border:none;color:var(--gold-soft);cursor:pointer;text-decoration:underline;font-size:.9rem;font-family:var(--sans);padding:0}
+.guest-link:disabled{opacity:.6;cursor:wait}
 /* ---------- Dedication (site level, for every trip) ---------- */
 .dedication-section{text-align:center}
 .dedication-section h2{margin-bottom:20px}
@@ -138,6 +143,7 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
       <p id="loginError" class="login-error" role="alert"></p>
     </form>
     <p class="login-note">Your sign-in is remembered on this device for 90 days.</p>
+    <p class="login-note"><button class="guest-link" id="guestBtn" type="button">Continue without signing in (temporary)</button></p>
   </div>
 </div>
 
@@ -194,6 +200,7 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
   <p><button class="track-btn" id="trackCanon" type="button">▶ Canon in D — Pachelbel</button>
      <button class="track-btn" id="trackChopin" type="button">▶ Chopin — Waltz in C-sharp minor</button>
      <button class="track-btn" id="trackValentine" type="button">▶ My Perfect Valentine — written by James for Christmin</button></p>
+  <p><button class="download-btn" id="downloadFlipbook" type="button">⬇ Download flipbook — offline, about 25 MB</button></p>
   <p>Tap the music button at the bottom right to play or pause, or tap a track above to switch. Pachelbel's Canon in D starts playing when the page opens; the Chopin waltz and "My Perfect Valentine" play only when you choose them.</p>
 </div>
 
@@ -239,10 +246,10 @@ function showApp() {
 }
 async function loadTrip() {
   const s = await fetch('/api/session');
-  if (!s.ok) { showLogin(); return; }
+  if (!s.ok) { showLogin(); return false; }
   showApp();
   const r = await fetch('/api/trip');
-  if (!r.ok) { showLogin(); return; }
+  if (!r.ok) { showLogin(); return false; }
   const data = await r.json();
   TRIP = data.trips[0];
   document.title = TRIP.title + ' — A Travel Toon Journey';
@@ -291,6 +298,7 @@ async function loadTrip() {
     label.textContent = 'Tap to play Canon in D ♫'; fab.setAttribute('aria-label','Play music');
   });
   build();
+  return true;
 }
 loadTrip().catch(() => { showLogin(); captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
 
@@ -314,11 +322,32 @@ document.getElementById('loginForm').addEventListener('submit', async (ev) => {
     });
     const out = await r.json().catch(() => ({}));
     if (!r.ok) { err.textContent = out.error || 'Sign-in failed. Please try again.'; return; }
-    await loadTrip();
+    /* Same as Cornerstone: if the sign-in worked but the page itself
+       does not load afterwards, say so plainly instead of silently
+       going back to the form. */
+    const ok = await loadTrip();
+    if (!ok) { err.textContent = 'Signed in, but the page did not open. Please try again.'; }
   } catch (e) {
     err.textContent = 'Could not reach the server. Check your connection and try again.';
   } finally {
     btn.disabled = false; btn.textContent = 'Sign in';
+  }
+});
+/* Temporary guest pass-through: open the page without a password.
+   James asked 5 Nov 2026 to leave it on for 48 hours; remove this button
+   and /api/guest.js ONLY when he says to. */
+document.getElementById('guestBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('guestBtn'), err = document.getElementById('loginError');
+  btn.disabled = true; btn.textContent = 'Opening…'; err.textContent = '';
+  try {
+    const r = await fetch('/api/guest', { method: 'POST' });
+    if (!r.ok) { err.textContent = 'Could not open the page. Please try again.'; return; }
+    const ok = await loadTrip();
+    if (!ok) { err.textContent = 'Signed in, but the page did not open. Please try again.'; }
+  } catch (e) {
+    err.textContent = 'Could not reach the server. Check your connection and try again.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Continue without signing in (temporary)';
   }
 });
 document.getElementById('logoutBtn').addEventListener('click', async () => {
@@ -440,6 +469,38 @@ fab.onclick = () => {
 document.getElementById('trackCanon').onclick = () => playTrack('canon');
 document.getElementById('trackChopin').onclick = () => playTrack('chopin');
 document.getElementById('trackValentine').onclick = () => playTrack('valentine');
+
+/* Download flipbook: a single self-contained HTML file (about 25 MB,
+   pictures and music embedded, works fully offline once downloaded).
+   It is too big for the jsDelivr CDN, which refuses files over 20 MB
+   ("File size exceeded the configured limit of 20 MB"), so it is
+   served from the GitHub repo directly (raw.githubusercontent.com).
+   The file is fetched and saved to the device, so the download works
+   even though the file is large. */
+document.getElementById('downloadFlipbook').addEventListener('click', async () => {
+  const btn = document.getElementById('downloadFlipbook');
+  const url = 'https://raw.githubusercontent.com/tjiufamily/travel-toons/main/highlights-of-eastern-europe-flipbook.html';
+  btn.disabled = true;
+  btn.textContent = 'Downloading flipbook…';
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const blob = await r.blob();
+    const dl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = dl;
+    a.download = 'highlights-of-eastern-europe-flipbook.html';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(dl), 15000);
+    btn.textContent = '⬇ Download flipbook — offline, about 25 MB';
+  } catch (e) {
+    btn.textContent = 'Download failed — tap to try again';
+  } finally {
+    btn.disabled = false;
+  }
+});
 
 /* Reveal on scroll */
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), {threshold:.12});
