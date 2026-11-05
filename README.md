@@ -43,6 +43,10 @@ The design does not change at all.
 - `trips.json` — all the words and pictures for every trip. This is the
   only file you need to edit to add a trip or a day.
 - `images/` — the web-sized cartoon pictures and their small previews.
+  These live in the GitHub repo too and are served to the page through
+  the jsDelivr CDN (see the `CDN` line at the top of `index.html`),
+  because Vercel's file-upload path cannot take single files over
+  about 95 KB. Nothing to do — it just works.
 - `music/` — the song for each trip. Eastern Europe uses Chopin's
   Waltz in C-sharp minor, Op. 64 No. 2, performed by Aaron Dunn
   (Musopen, public domain — CC0 1.0).

@@ -155,6 +155,11 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 <audio id="audio" loop preload="none"></audio>
 
 <script>
+/* Images and music live in the public GitHub repo (tjiufamily/travel-toons)
+   and are served here through the jsDelivr CDN, with the right file types.
+   Set CDN to '' to serve them from this site instead. */
+const CDN = 'https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main';
+const asset = p => p ? (CDN ? CDN + '/' + p : p) : null;
 let TRIP = null, idx = 0;
 const slidesEl = document.getElementById('slides'),
       captionEl = document.getElementById('caption'),
@@ -164,13 +169,13 @@ const slidesEl = document.getElementById('slides'),
 
 fetch('trips.json').then(r => r.json()).then(data => {
   TRIP = data.trips[0];
-  document.getElementById('heroImg').src = TRIP.cover;
+  document.getElementById('heroImg').src = asset(TRIP.cover);
   document.getElementById('route').innerHTML = TRIP.route.split('·').map(s => '<span>' + s.trim() + '</span>').join('<i>→</i>');
   const m = TRIP.music;
   const credit = m.title + ' — ' + m.composer + ', performed by ' + m.performer + ' (' + m.source + ', ' + m.licence + '). ' + m.note;
   document.getElementById('musicCredit').textContent = credit;
   document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + ').';
-  document.getElementById('audio').src = m.file;
+  document.getElementById('audio').src = asset(m.file);
   build();
 }).catch(() => { captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
 
@@ -180,7 +185,7 @@ function build(){
     s.className = 'slide' + (d.image ? '' : ' soon');
     if (d.image) {
       const im = new Image();
-      im.src = d.image; im.alt = 'Day ' + d.day + ' — ' + d.title;
+      im.src = asset(d.image); im.alt = 'Day ' + d.day + ' — ' + d.title;
       im.onerror = () => { s.classList.add('soon'); s.innerHTML = soonHTML(d); };
       s.appendChild(im);
     } else { s.innerHTML = soonHTML(d); }
@@ -195,8 +200,8 @@ function build(){
     const card = document.createElement('button');
     card.className = 'day-card' + (d.image ? '' : ' soon-card');
     card.innerHTML = (d.image
-      ? '<img src="' + (d.thumb || d.image) + '" alt="" loading="lazy">'
-      : '<img src="images/day-01.jpg" alt="" loading="lazy">')
+      ? '<img src="' + asset(d.thumb || d.image) + '" alt="" loading="lazy">'
+      : '<img src="' + asset('images/day-01.jpg') + '" alt="" loading="lazy">')
       + (d.image ? '' : '<span class="soon-tag">Soon</span>')
       + '<span class="dc-body"><span class="dc-day">Day ' + d.day + ' · ' + d.date + '</span><br><span class="dc-title">' + d.title + '</span></span>';
     card.onclick = () => { go(i); document.getElementById('journey').scrollIntoView({behavior:'smooth'}); };
