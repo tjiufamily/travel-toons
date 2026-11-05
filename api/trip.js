@@ -1,4 +1,4 @@
-// Serves the trip data, but ONLY to a signed-in family session.
+// Serves the trip data, but ONLY to a signed-in session.
 // Mirrors Cornerstone, where all data goes through /api/* behind a
 // session check. trips.json itself is NOT deployed as a static file,
 // so the trip data cannot be fetched without signing in.
@@ -143,7 +143,7 @@ const TRIPS = {
       "dedicatedSong": {
         "composer": "James Tjiunardi",
         "file": "music/my-perfect-valentine.mp3",
-        "licence": "Family original",
+        "licence": "Original recording",
         "note": "Written by James for Christmin \u2014 his Valentine, his travelling partner for life.",
         "source": "Written by James for Christmin",
         "title": "My Perfect Valentine"

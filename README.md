@@ -65,16 +65,16 @@ The design does not change at all.
   because Vercel's file-upload path cannot take single files over
   about 95 KB. Nothing to do — it just works.
 - `music/` — the song for each trip. Eastern Europe uses "My Perfect
-  Valentine", written by James for Christmin (a family
-  original, `music/my-perfect-valentine.mp3`).
+  Valentine", written by James for Christmin (an original
+  recording, `music/my-perfect-valentine.mp3`).
 - `deploy.py` — publishes the folder to Vercel.
 - `.project.json` — created automatically the first time you publish;
   it remembers which Vercel project this is. Do not delete it.
 
 ## Password protection (same as Cornerstone)
 
-The page is family-only, with the same sign-in as Cornerstone: the family
-email (`tjiunardi.family@gmail.com`) plus the same family password.
+The page is sign-in only, with the same sign-in as Cornerstone: the
+email (`tjiunardi.family@gmail.com`) plus the same password.
 The gate works exactly like Cornerstone's: `api/login.js` checks the
 password against a salted scrypt hash in the `TRAVEL_TOONS_PASSWORD_HASH`
 environment variable, sets a signed 90-day cookie, and the trip data is
@@ -83,7 +83,7 @@ itself is never published as a file). The password and its hash are
 never written into any file.
 
 To set the secrets on Vercel (one-off, after a fresh project): run
-`python3 set_env.py` in this folder and type the family password when
+`python3 set_env.py` in this folder and type the password when
 asked. It hashes the password and creates both
 `TRAVEL_TOONS_PASSWORD_HASH` and `TRAVEL_TOONS_SESSION_SECRET` as
 sensitive production env vars. Then redeploy.
@@ -103,7 +103,7 @@ JSON into `api/trip.js`), then run `python3 deploy.py` as usual.
 
 ## Notes
 
-- The page is family-only, with no data collected.
+- The page is sign-in only, with no data collected.
 - Install icon: `manifest.json` (name "Travel Toons", theme colour
   `#0d0b09`) plus `images/icon-192.png`, `images/icon-512.png`, a
   maskable `images/icon-maskable-512.png` and

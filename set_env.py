@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """One-off: set Travel Toons' production secrets on Vercel.
-Mirrors Cornerstone's set_env.py. Reads the family password from stdin
+Mirrors Cornerstone's set_env.py. Reads the password from stdin
 (never stored, never printed), hashes it with the app's own api/_lib.js
 (scrypt), generates a random session secret, and creates both as
 'sensitive' production env vars via the Vercel connector.
 
-The password is the SAME family password as Cornerstone, so the family
-uses the login they already know. Run: python3 set_env.py < then type
-the family password and press Enter (input is not echoed to a file).
+The password is the SAME password as Cornerstone, so the sign-in
+you already know stays the same. Run: python3 set_env.py < then type
+the password and press Enter (input is not echoed to a file).
 """
 import json, secrets, subprocess, sys
 from pathlib import Path

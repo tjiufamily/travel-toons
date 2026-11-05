@@ -2,7 +2,7 @@
 // mechanism: the password is only ever checked against a salted scrypt hash
 // held in the TRAVEL_TOONS_PASSWORD_HASH environment variable, format
 // "saltHex:hashHex". Sessions are HMAC-signed cookies, 90 days.
-// The family password is the SAME one as Cornerstone; only the env var names
+// The password is the SAME one as Cornerstone; only the env var names
 // differ (per-project). Never put the password or its hash in a file.
 const crypto = require("crypto");
 

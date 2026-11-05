@@ -2,7 +2,7 @@
 """Regenerate api/trip.js from trips.json.
 
 trips.json is the local source of truth, but it is NOT deployed as a
-static file (the trip data is only served to a signed-in family session
+static file (the trip data is only served to a signed-in session
 via api/trip.js). Run this after editing trips.json, before deploy.py.
 """
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 data = json.loads((ROOT / "trips.json").read_text())
-js = ('// Serves the trip data, but ONLY to a signed-in family session.\n'
+js = ('// Serves the trip data, but ONLY to a signed-in session.\n'
       '// Mirrors Cornerstone, where all data goes through /api/* behind a\n'
       '// session check. trips.json itself is NOT deployed as a static file,\n'
       '// so the trip data cannot be fetched without signing in.\n'

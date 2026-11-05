@@ -98,7 +98,7 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
 .reveal.in{opacity:1;transform:none}
 .hidden{display:none}
-/* ---------- Login (same family gate as Cornerstone) ---------- */
+/* ---------- Login (same sign-in gate as Cornerstone) ---------- */
 .login-wrap{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 120% at 20% 10%,#2b2118 0%,#171310 55%,#0d0b09 100%)}
 .login-card{max-width:420px;width:100%;border:1px solid var(--line);border-radius:20px;padding:36px 32px;background:rgba(13,11,9,.7);text-align:center}
 .login-card h1{font-size:2rem;margin-bottom:8px}
@@ -222,7 +222,7 @@ const slidesEl = document.getElementById('slides'),
       stripEl = document.getElementById('strip'),
       barEl = document.getElementById('progressBar');
 
-/* Family gate, same as Cornerstone: the trip data only loads after sign-in. */
+/* Sign-in gate, same as Cornerstone: the trip data only loads after sign-in. */
 function showLogin() {
   document.getElementById('appView').classList.add('hidden');
   document.getElementById('loginView').classList.remove('hidden');
