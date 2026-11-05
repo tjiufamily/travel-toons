@@ -188,7 +188,7 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 
 <button class="music-fab" id="musicFab" aria-label="Play music" aria-pressed="false">
   <span class="eq"><i></i><i></i><i></i><i></i></span>
-  <span id="musicLabel">Play our song ♫</span>
+  <span id="musicLabel">Play My Perfect Valentine ♫</span>
 </button>
 </div><!-- /appView -->
 <audio id="audio" loop preload="none"></audio>
@@ -246,7 +246,10 @@ async function loadTrip() {
   const credit = m.title + ' — ' + m.composer + ', performed by ' + m.performer + ' (' + m.source + ', ' + m.licence + '). ' + m.note;
   document.getElementById('musicCredit').textContent = credit;
   document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + ').';
-  document.getElementById('audio').src = asset(m.file);
+  /* No-autoplay hardening: the audio file is NOT loaded on page load at
+     all — its URL is kept here and only handed to the <audio> element on
+     the first tap of the music button. Nothing can play before a tap. */
+  musicUrl = asset(m.file);
   build();
 }
 loadTrip().catch(() => { showLogin(); captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
@@ -347,20 +350,25 @@ stage.addEventListener('pointerup', e => {
 });
 stage.addEventListener('pointercancel', () => { dragging = false; startX = null; });
 
-/* Music toggle — never autoplays */
+/* Music toggle — never autoplays. The audio src is only set on the first
+   tap, so no music loads or plays on page load, on sign-in, or on swipe.
+   The only audio.play() call in the whole page is inside this tap handler. */
+let musicUrl = null;
 const audio = document.getElementById('audio'),
       fab = document.getElementById('musicFab'),
       label = document.getElementById('musicLabel');
+audio.autoplay = false;
 fab.onclick = () => {
   if (audio.paused) {
+    if (!audio.src && musicUrl) { audio.src = musicUrl; }
     audio.play().then(() => {
       fab.classList.add('playing'); fab.setAttribute('aria-pressed','true');
-      label.textContent = 'Playing our song ♫'; fab.setAttribute('aria-label','Pause music');
+      label.textContent = 'Playing My Perfect Valentine ♫'; fab.setAttribute('aria-label','Pause music');
     }).catch(() => { label.textContent = 'Tap again to play ♫'; });
   } else {
     audio.pause();
     fab.classList.remove('playing'); fab.setAttribute('aria-pressed','false');
-    label.textContent = 'Play our song ♫'; fab.setAttribute('aria-label','Play music');
+    label.textContent = 'Play My Perfect Valentine ♫'; fab.setAttribute('aria-label','Play music');
   }
 };
 

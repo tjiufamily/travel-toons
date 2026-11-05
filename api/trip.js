@@ -131,13 +131,13 @@ const TRIPS = {
       "dedication": "Dedicated to Christmin \u2014 my love, my travelling companion.",
       "id": "highlights-of-eastern-europe",
       "music": {
-        "composer": "Fr\u00e9d\u00e9ric Chopin",
-        "file": "music/chopin-waltz-op64-no2.mp3",
-        "licence": "Public domain \u2014 CC0 1.0",
-        "note": "Chopin, Poland's own composer, in waltz time \u2014 the dance of Vienna, heard all the way across the trip.",
-        "performer": "Aaron Dunn",
-        "source": "Musopen, via the Internet Archive",
-        "title": "Waltz in C-sharp minor, Op. 64 No. 2"
+        "composer": "James Tjiunardi",
+        "file": "music/my-perfect-valentine.mp3",
+        "licence": "Family original",
+        "note": "James wrote and sang this song for Christmin \u2014 his Valentine, his travelling partner for life.",
+        "performer": "James Tjiunardi",
+        "source": "Written and sung by James for Christmin",
+        "title": "My Perfect Valentine"
       },
       "route": "Munich \u00b7 Prague \u00b7 Dresden \u00b7 Berlin \u00b7 Wroc\u0142aw \u00b7 Krak\u00f3w \u00b7 Budapest \u00b7 Vienna \u00b7 Salzburg \u00b7 Munich",
       "subtitle": "A cartoon journey in thirteen days",

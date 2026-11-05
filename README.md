@@ -64,9 +64,9 @@ The design does not change at all.
   the jsDelivr CDN (see the `CDN` line at the top of `index.html`),
   because Vercel's file-upload path cannot take single files over
   about 95 KB. Nothing to do — it just works.
-- `music/` — the song for each trip. Eastern Europe uses Chopin's
-  Waltz in C-sharp minor, Op. 64 No. 2, performed by Aaron Dunn
-  (Musopen, public domain — CC0 1.0).
+- `music/` — the song for each trip. Eastern Europe uses "My Perfect
+  Valentine", written and sung by James for Christmin (a family
+  original, `music/my-perfect-valentine.mp3`).
 - `deploy.py` — publishes the folder to Vercel.
 - `.project.json` — created automatically the first time you publish;
   it remembers which Vercel project this is. Do not delete it.
@@ -105,6 +105,10 @@ JSON into `api/trip.js`), then run `python3 deploy.py` as usual.
 
 - The page is family-only, with no data collected.
 - The music never plays by itself — visitors tap the music button.
+  The audio file is not even loaded on page load: its URL is only
+  handed to the player on the first tap, so nothing can autoplay
+  (fixed 5 Nov 2026 after the Chopin track was heard playing on its
+  own on a phone).
 - The original full-size cartoons stay in
   `~/workspace/gemini-gems/travel-toon-director/images/` and are
   not published here; only the smaller web copies are.
