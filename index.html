@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Highlights of Eastern Europe — A Travel Toon Journey</title>
+<meta name="description" content="Thirteen days across Eastern Europe, told in cartoons. A travel toon journey, dedicated to Christmin.">
+<meta property="og:title" content="Highlights of Eastern Europe — A Travel Toon Journey">
+<meta property="og:description" content="Thirteen days across Eastern Europe, told in cartoons. Dedicated to Christmin.">
+<meta property="og:image" content="images/day-01.jpg">
+<style>
+:root{
+  --ink:#f5efe4; --ink-dim:#cfc4ae; --gold:#d9a441; --gold-soft:#e8c37a;
+  --bg:#0d0b09; --bg2:#171310; --card:#1d1813; --line:rgba(217,164,65,.35);
+  --serif:Georgia,'Times New Roman',serif; --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:var(--gold-soft)}
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;animation:kenburns 24s ease-in-out infinite alternate;filter:saturate(1.05)}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.08) translateY(-1.5%)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,11,9,.25) 0%,rgba(13,11,9,.05) 40%,rgba(13,11,9,.82) 78%,var(--bg) 100%)}
+.hero-inner{position:relative;z-index:2;padding:clamp(20px,5vw,64px);max-width:1100px}
+.eyebrow{letter-spacing:.35em;text-transform:uppercase;font-size:clamp(.65rem,1.6vw,.8rem);color:var(--gold-soft);margin-bottom:14px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,7.5vw,5rem);line-height:1.05;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+.hero-sub{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.6vw,1.5rem);color:var(--ink-dim);margin-top:12px}
+.dedication{margin-top:22px;display:inline-block;border:1px solid var(--line);border-radius:999px;padding:10px 20px;background:rgba(13,11,9,.55);backdrop-filter:blur(6px);font-family:var(--serif);font-style:italic;font-size:clamp(.95rem,2.2vw,1.15rem);color:#f7ead0}
+.dedication b{color:var(--gold-soft);font-weight:400}
+.hero-meta{margin-top:18px;color:var(--ink-dim);font-size:.92rem;letter-spacing:.06em}
+.scroll-cue{margin-top:28px;display:flex;align-items:center;gap:10px;color:var(--gold-soft);font-size:.85rem;letter-spacing:.22em;text-transform:uppercase}
+.scroll-cue span{animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+/* ---------- Sections ---------- */
+section{max-width:1100px;margin:0 auto;padding:clamp(36px,7vw,72px) clamp(16px,4vw,40px)}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:8px}
+.section-lede{color:var(--ink-dim);max-width:640px;margin-bottom:28px}
+/* ---------- Carousel ---------- */
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08);touch-action:pan-y}
+.slides{display:flex;transition:transform .6s cubic-bezier(.22,.8,.24,1)}
+.slide{flex:0 0 100%;position:relative}
+.slide img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.slide.soon{background:radial-gradient(120% 120% at 20% 10%,#2b2118 0%,#171310 55%,#0d0b09 100%);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:10px}
+.soon-num{font-family:var(--serif);font-size:clamp(3rem,9vw,5rem);color:var(--gold);opacity:.9}
+.soon-title{font-family:var(--serif);font-size:clamp(1.2rem,3.4vw,1.8rem)}
+.soon-note{color:var(--ink-dim);max-width:420px;font-size:.95rem}
+.soon-badge{display:inline-block;border:1px solid var(--line);color:var(--gold-soft);border-radius:999px;padding:4px 14px;font-size:.75rem;letter-spacing:.25em;text-transform:uppercase}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(13,11,9,.55);color:#fff;font-size:1.4rem;cursor:pointer;backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.arrow:hover{background:rgba(217,164,65,.85);color:#14100c}
+.arrow.prev{left:12px}.arrow.next{right:12px}
+@media (max-width:640px){.arrow{width:40px;height:40px;font-size:1.1rem}}
+.caption{padding:22px 4px 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:baseline}
+.caption .day-tag{font-family:var(--serif);color:var(--gold);font-size:1.05rem;white-space:nowrap}
+.caption h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.35rem,3.4vw,1.9rem)}
+.caption p{grid-column:2;color:var(--ink-dim)}
+.caption .date{grid-column:2;color:var(--gold-soft);font-size:.85rem;letter-spacing:.14em;text-transform:uppercase}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--gold);background:transparent;cursor:pointer;padding:0;transition:all .25s}
+.dot.active{background:var(--gold);transform:scale(1.35)}
+.dot.soon{border-style:dashed;opacity:.6}
+.progress{height:3px;background:rgba(255,255,255,.12);border-radius:2px;margin-top:16px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--gold);transition:width .5s ease}
+/* ---------- Day strip ---------- */
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.day-card{position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:var(--card);cursor:pointer;text-align:left;color:var(--ink);font-family:var(--sans);padding:0;transition:transform .25s,border-color .25s}
+.day-card:hover{transform:translateY(-3px);border-color:var(--gold)}
+.day-card.active{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.day-card img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.day-card .dc-body{padding:10px 12px 12px}
+.day-card .dc-day{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft)}
+.day-card .dc-title{font-family:var(--serif);font-size:1rem;line-height:1.3;margin-top:2px}
+.day-card.soon-card img{filter:grayscale(.7) brightness(.5)}
+.soon-tag{position:absolute;top:8px;right:8px;background:rgba(13,11,9,.8);border:1px solid var(--line);color:var(--gold-soft);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;border-radius:999px;padding:3px 9px}
+/* ---------- Route ---------- */
+.route{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.route span{font-family:var(--serif);font-size:1.05rem}
+.route i{color:var(--gold);font-style:normal}
+/* ---------- Music ---------- */
+.music-fab{position:fixed;right:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:10px;background:rgba(23,19,16,.92);border:1px solid var(--line);border-radius:999px;padding:9px 16px 9px 12px;color:var(--ink);cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.5);backdrop-filter:blur(8px);font-family:var(--sans);font-size:.9rem}
+.music-fab:hover{border-color:var(--gold)}
+.eq{display:flex;gap:2.5px;align-items:flex-end;height:16px;width:18px}
+.eq i{width:3px;background:var(--gold);height:4px;border-radius:2px}
+.music-fab.playing .eq i{animation:eq .9s ease-in-out infinite}
+.music-fab.playing .eq i:nth-child(2){animation-delay:.2s}.music-fab.playing .eq i:nth-child(3){animation-delay:.35s}.music-fab.playing .eq i:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{height:4px}50%{height:16px}}
+.music-note{max-width:1100px;margin:0 auto;padding:0 clamp(16px,4vw,40px) clamp(36px,7vw,72px);color:var(--ink-dim);font-size:.9rem}
+.music-note b{color:var(--ink);font-weight:600}
+footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 20px 90px;text-align:center;color:var(--ink-dim);font-size:.88rem}
+footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#f7ead0;margin-bottom:10px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img class="hero-img" id="heroImg" src="images/day-01.jpg" alt="Day 1 — Highlights of Eastern Europe cartoon: Munich to Prague">
+  <div class="hero-inner">
+    <p class="eyebrow">A travel toon journey · 2 – 14 November 2026</p>
+    <h1>Highlights of<br>Eastern Europe</h1>
+    <p class="hero-sub">Thirteen days, six cities, one cartoon at a time.</p>
+    <p><span class="dedication">Dedicated to <b>Christmin</b> — my love, my travelling companion.</span></p>
+    <p class="hero-meta">Munich · Prague · Dresden · Berlin · Wrocław · Kraków · Budapest · Vienna · Salzburg · Munich</p>
+    <p class="scroll-cue"><span>↓</span> Swipe through our days</p>
+  </div>
+</header>
+
+<main>
+  <section id="journey" class="reveal">
+    <h2>The journey, day by day</h2>
+    <p class="section-lede">Each day of the trip became one cartoon — six panels, one picture. Swipe across, or tap a day below. Days 7 to 13 are still being drawn, and will appear here as they arrive.</p>
+
+    <div class="stage" id="stage" aria-roledescription="carousel" aria-label="Travel toon days">
+      <div class="slides" id="slides"></div>
+      <button class="arrow prev" id="prevBtn" aria-label="Previous day">‹</button>
+      <button class="arrow next" id="nextBtn" aria-label="Next day">›</button>
+    </div>
+
+    <div class="caption" id="caption"></div>
+    <div class="progress"><i id="progressBar"></i></div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <section class="reveal">
+    <h2>All thirteen days</h2>
+    <p class="section-lede">Tap any day to open it above.</p>
+    <div class="strip" id="strip"></div>
+  </section>
+
+  <section class="reveal">
+    <h2>Our route</h2>
+    <p class="section-lede">From Munich, east through Bohemia and Silesia, down the Danube, and home again.</p>
+    <p class="route" id="route"></p>
+  </section>
+</main>
+
+<div class="music-note reveal">
+  <p><b>Listening:</b> <span id="musicCredit"></span></p>
+  <p>Tap the music button at the bottom right to play or pause. The music never starts on its own.</p>
+</div>
+
+<footer>
+  <p class="ded">Dedicated to Christmin — my love, my travelling companion.</p>
+  <p>Highlights of Eastern Europe · November 2026 · Drawn with Gemini, shared with love.</p>
+  <p id="footerCredit"></p>
+</footer>
+
+<button class="music-fab" id="musicFab" aria-label="Play music" aria-pressed="false">
+  <span class="eq"><i></i><i></i><i></i><i></i></span>
+  <span id="musicLabel">Play our song ♫</span>
+</button>
+<audio id="audio" loop preload="none"></audio>
+
+<script>
+let TRIP = null, idx = 0;
+const slidesEl = document.getElementById('slides'),
+      captionEl = document.getElementById('caption'),
+      dotsEl = document.getElementById('dots'),
+      stripEl = document.getElementById('strip'),
+      barEl = document.getElementById('progressBar');
+
+fetch('trips.json').then(r => r.json()).then(data => {
+  TRIP = data.trips[0];
+  document.getElementById('heroImg').src = TRIP.cover;
+  document.getElementById('route').innerHTML = TRIP.route.split('·').map(s => '<span>' + s.trim() + '</span>').join('<i>→</i>');
+  const m = TRIP.music;
+  const credit = m.title + ' — ' + m.composer + ', performed by ' + m.performer + ' (' + m.source + ', ' + m.licence + '). ' + m.note;
+  document.getElementById('musicCredit').textContent = credit;
+  document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + ').';
+  document.getElementById('audio').src = m.file;
+  build();
+}).catch(() => { captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
+
+function build(){
+  TRIP.days.forEach((d, i) => {
+    const s = document.createElement('div');
+    s.className = 'slide' + (d.image ? '' : ' soon');
+    if (d.image) {
+      const im = new Image();
+      im.src = d.image; im.alt = 'Day ' + d.day + ' — ' + d.title;
+      im.onerror = () => { s.classList.add('soon'); s.innerHTML = soonHTML(d); };
+      s.appendChild(im);
+    } else { s.innerHTML = soonHTML(d); }
+    slidesEl.appendChild(s);
+
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (d.image ? '' : ' soon');
+    dot.setAttribute('aria-label', 'Go to day ' + d.day);
+    dot.onclick = () => go(i);
+    dotsEl.appendChild(dot);
+
+    const card = document.createElement('button');
+    card.className = 'day-card' + (d.image ? '' : ' soon-card');
+    card.innerHTML = (d.image
+      ? '<img src="' + (d.thumb || d.image) + '" alt="" loading="lazy">'
+      : '<img src="images/day-01.jpg" alt="" loading="lazy">')
+      + (d.image ? '' : '<span class="soon-tag">Soon</span>')
+      + '<span class="dc-body"><span class="dc-day">Day ' + d.day + ' · ' + d.date + '</span><br><span class="dc-title">' + d.title + '</span></span>';
+    card.onclick = () => { go(i); document.getElementById('journey').scrollIntoView({behavior:'smooth'}); };
+    stripEl.appendChild(card);
+  });
+  go(0, true);
+}
+
+function soonHTML(d){
+  return '<div class="soon-num">Day ' + d.day + '</div>'
+    + '<div class="soon-title">' + d.title + '</div>'
+    + '<span class="soon-badge">Coming soon</span>'
+    + '<p class="soon-note">' + d.blurb + ' This page is still being drawn — it will appear here as soon as the cartoon is ready.</p>'
+    + '<p class="soon-note" style="font-size:.85rem">' + d.date + ' · ' + d.place + '</p>';
+}
+
+function go(i, first){
+  const n = TRIP.days.length;
+  idx = ((i % n) + n) % n;
+  slidesEl.style.transform = 'translateX(-' + (idx * 100) + '%)';
+  const d = TRIP.days[idx];
+  captionEl.innerHTML = '<span class="day-tag">Day ' + d.day + ' of 13</span>'
+    + '<h3>' + d.title + '</h3>'
+    + '<span class="date">' + d.date + ' · ' + d.place + '</span>'
+    + '<p>' + d.blurb + (d.image ? '' : ' (Coming soon — this cartoon is still being drawn.)') + '</p>';
+  barEl.style.width = ((idx + 1) / n * 100) + '%';
+  [...dotsEl.children].forEach((el, k) => el.classList.toggle('active', k === idx));
+  [...stripEl.children].forEach((el, k) => el.classList.toggle('active', k === idx));
+  if (!first) { const live = document.querySelector('.slide'); }
+}
+
+document.getElementById('prevBtn').onclick = () => go(idx - 1);
+document.getElementById('nextBtn').onclick = () => go(idx + 1);
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') go(idx - 1);
+  if (e.key === 'ArrowRight') go(idx + 1);
+});
+
+/* Touch + pointer swipe */
+let startX = null, dragging = false;
+const stage = document.getElementById('stage');
+stage.addEventListener('pointerdown', e => { startX = e.clientX; dragging = true; });
+stage.addEventListener('pointerup', e => {
+  if (!dragging || startX === null) return;
+  const dx = e.clientX - startX;
+  if (Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1));
+  dragging = false; startX = null;
+});
+stage.addEventListener('pointercancel', () => { dragging = false; startX = null; });
+
+/* Music toggle — never autoplays */
+const audio = document.getElementById('audio'),
+      fab = document.getElementById('musicFab'),
+      label = document.getElementById('musicLabel');
+fab.onclick = () => {
+  if (audio.paused) {
+    audio.play().then(() => {
+      fab.classList.add('playing'); fab.setAttribute('aria-pressed','true');
+      label.textContent = 'Playing our song ♫'; fab.setAttribute('aria-label','Pause music');
+    }).catch(() => { label.textContent = 'Tap again to play ♫'; });
+  } else {
+    audio.pause();
+    fab.classList.remove('playing'); fab.setAttribute('aria-pressed','false');
+    label.textContent = 'Play our song ♫'; fab.setAttribute('aria-label','Play music');
+  }
+};
+
+/* Reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
