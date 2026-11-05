@@ -8,8 +8,14 @@ flipbook works fully offline once downloaded.
 
 Usage (from this folder):
     python3 build_flipbook.py
+    python3 build_flipbook.py --shared
 
 Output: highlights-of-eastern-europe-flipbook.html (about 24 MB).
+With --shared: highlights-of-eastern-europe-flipbook-shared.html,
+the shareable version with no dedication page, no dedication line,
+no mention of Christmin, and no "My Perfect Valentine" track
+(Canon in D and the Chopin waltz only). The Vercel page keeps its
+dedication; only the shared file is clean for circulation.
 Re-run it whenever a new day's cartoon is added to trips.json and the
 images/ folder; days whose "image" is null are skipped automatically,
 so Days 11-13 will be picked up as soon as they land.
@@ -25,6 +31,7 @@ Then it is served at:
     https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/highlights-of-eastern-europe-flipbook.html
 The "Download flipbook" button on the Travel Toons page links there.
 """
+import argparse
 import base64
 import html
 import json
@@ -32,6 +39,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "highlights-of-eastern-europe-flipbook.html"
+SHARED_OUT = ROOT / "highlights-of-eastern-europe-flipbook-shared.html"
 
 # Music files (local), in the order the flipbook plays them.
 TRACKS = [
@@ -47,6 +55,13 @@ def data_uri(path, mime):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Build the Travel Toons flipbook.")
+    parser.add_argument("--shared", action="store_true",
+                        help="Build the shareable version: no dedication page, "
+                             "no mention of Christmin, no Valentine track.")
+    args = parser.parse_args()
+    shared = args.shared
+    out = SHARED_OUT if shared else OUT
     data = json.loads((ROOT / "trips.json").read_text())
     trip = data["trips"][0]
     days = [d for d in trip["days"] if d.get("image")]
@@ -59,38 +74,42 @@ def main():
         p = ROOT / d["image"]
         images[d["day"]] = data_uri(p, "image/jpeg")
 
-    # Music as data URIs.
+    # Music as data URIs. Shared version drops the Valentine track
+    # entirely (its credit names Christmin); Canon + Chopin only.
+    all_tracks = TRACKS if not shared else [t for t in TRACKS if t[0] != "valentine"]
     tracks = []
-    for key, title, credit, path in TRACKS:
+    for key, title, credit, path in all_tracks:
         tracks.append((key, title, credit, data_uri(path, "audio/mpeg")))
 
-    # Pages: cover, dedication, then one page per day.
+    # Pages: cover, then (original only) dedication, then one per day.
     pages = []
-    pages.append(
+    cover = (
         '<div class="page cover" data-i="0">'
         '<p class="cover-eyebrow">A travel toon journey</p>'
         '<h1>' + html.escape(trip["title"]) + '</h1>'
         '<p class="cover-sub">' + html.escape(trip.get("subtitle", "")) + '</p>'
         '<p class="cover-dates">' + html.escape(trip["dates"]) + '</p>'
-        '<p class="cover-ded">' + html.escape(trip["dedication"]) + '</p>'
-        '<p class="cover-hint">Tap or swipe to begin &rsaquo;</p>'
-        '</div>'
     )
-    intro = (data.get("dedicationIntro") or "").strip()
-    paras = [p.strip() for p in intro.split("\n") if p.strip()]
-    if not paras:
-        # Split the single-paragraph intro into three readable paragraphs.
-        paras = [intro]
-    ded_html = "".join("<p>" + html.escape(p) + "</p>" for p in paras)
-    pages.append(
-        '<div class="page dedication" data-i="1">'
-        '<h2>For Christmin</h2>'
-        '<div class="ded-text">' + ded_html + '</div>'
-        '<p class="page-num">Dedication</p>'
-        '</div>'
-    )
+    if not shared:
+        cover += '<p class="cover-ded">' + html.escape(trip["dedication"]) + '</p>'
+    cover += '<p class="cover-hint">Tap or swipe to begin &rsaquo;</p></div>'
+    pages.append(cover)
+    if not shared:
+        intro = (data.get("dedicationIntro") or "").strip()
+        paras = [p.strip() for p in intro.split("\n") if p.strip()]
+        if not paras:
+            # Split the single-paragraph intro into three readable paragraphs.
+            paras = [intro]
+        ded_html = "".join("<p>" + html.escape(p) + "</p>" for p in paras)
+        pages.append(
+            '<div class="page dedication" data-i="1">'
+            '<h2>For Christmin</h2>'
+            '<div class="ded-text">' + ded_html + '</div>'
+            '<p class="page-num">Dedication</p>'
+            '</div>'
+        )
     for n, d in enumerate(days):
-        i = n + 2
+        i = n + 1 if shared else n + 2
         pages.append(
             '<div class="page day" data-i="' + str(i) + '">'
             '<img src="' + images[d["day"]] + '" alt="Day ' + str(d["day"]) + ' — ' + html.escape(d["title"]) + '">'
@@ -99,7 +118,6 @@ def main():
             '<h3>' + html.escape(d["title"]) + '</h3>'
             '<p>' + html.escape(d["blurb"]) + '</p>'
             '</div>'
-            '<p class="page-num">Day ' + str(d["day"]) + ' of 13</p>'
             '</div>'
         )
 
@@ -109,22 +127,56 @@ def main():
     # Music track data (embedded as data URIs).
     canon_uri = tracks[0][3]
     chopin_uri = tracks[1][3]
-    valentine_uri = tracks[2][3]
 
     doc = TEMPLATE
     doc = doc.replace("__TITLE__", html.escape(trip["title"]))
     doc = doc.replace("__DATES__", html.escape(trip["dates"]))
-    doc = doc.replace("__DEDICATION__", html.escape(trip["dedication"]))
+    if shared:
+        # No dedication line in the top header at all. Note __DATES__
+        # was already replaced above, so match the rendered dates line.
+        doc = doc.replace(" &middot; __DEDICATION__", "")
+        # Page labels: cover, then Day 1 directly (no Dedication page).
+        doc = doc.replace(
+            "function pageName(i){\n  if (i === 0) return 'Cover';\n"
+            "  if (i === 1) return 'Dedication';\n"
+            "  return 'Day ' + (i - 1) + ' of __DAYS_INCLUDED__';\n}",
+            "function pageName(i){\n  if (i === 0) return 'Cover';\n"
+            "  return 'Day ' + i + ' of __DAYS_INCLUDED__';\n}")
+        # Drop the Valentine track button, its JS entry, toggle and
+        # click handler, and update the music hint. Also drop the
+        # dedication CSS rules so the word appears nowhere in the file.
+        doc = doc.replace(
+            '    <button class="track-btn" id="trackValentine" type="button">'
+            '&#9654; My Perfect Valentine &mdash; written by James for Christmin</button>\n', "")
+        doc = doc.replace(
+            "  valentine: { title: 'My Perfect Valentine', file: '__VALENTINE_URI__', "
+            "label: 'My Perfect Valentine \\u2014 written by James for Christmin' }\n", "")
+        doc = doc.replace(
+            "  document.getElementById('trackValentine').classList.toggle('active', key === 'valentine');\n", "")
+        doc = doc.replace(
+            "document.getElementById('trackValentine').onclick = function(){ setTrack('valentine'); };\n", "")
+        doc = doc.replace(
+            "; the Chopin waltz and &ldquo;My Perfect Valentine&rdquo; play only when you choose them.",
+            "; the Chopin waltz plays only when you choose it.")
+        doc = doc.replace(".page.cover,.page.dedication{", ".page.cover{")
+        doc = doc.replace(
+            ".page.dedication h2{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:16px}\n", "")
+        doc = doc.replace(
+            ".ded-text{font-family:var(--serif);font-size:clamp(1rem,2.2vw,1.2rem);line-height:1.85;color:#f7ead0;max-width:640px;text-align:left;overflow-y:auto}\n", "")
+        doc = doc.replace(".ded-text p{margin-bottom:14px}\n", "")
+    else:
+        doc = doc.replace("__DEDICATION__", html.escape(trip["dedication"]))
+        valentine_uri = tracks[2][3]
+        doc = doc.replace("__VALENTINE_URI__", valentine_uri)
     doc = doc.replace("__PAGES__", pages_html)
     doc = doc.replace("__TOTAL__", str(total))
     doc = doc.replace("__DAYS_INCLUDED__", str(len(days)))
     doc = doc.replace("__CANON_URI__", canon_uri)
     doc = doc.replace("__CHOPIN_URI__", chopin_uri)
-    doc = doc.replace("__VALENTINE_URI__", valentine_uri)
 
-    OUT.write_text(doc, encoding="utf-8")
-    size = OUT.stat().st_size
-    print("wrote", OUT.name)
+    out.write_text(doc, encoding="utf-8")
+    size = out.stat().st_size
+    print("wrote", out.name)
     print("days included:", len(days), "(Days " + str(days[0]["day"]) + "–" + str(days[-1]["day"]) + ")")
     print("size: %d bytes (%.2f MB, %.2f MiB)" % (size, size / 1_000_000, size / 1_048_576))
 

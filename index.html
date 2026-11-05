@@ -200,7 +200,7 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
   <p><button class="track-btn" id="trackCanon" type="button">▶ Canon in D — Pachelbel</button>
      <button class="track-btn" id="trackChopin" type="button">▶ Chopin — Waltz in C-sharp minor</button>
      <button class="track-btn" id="trackValentine" type="button">▶ My Perfect Valentine — written by James for Christmin</button></p>
-  <p><button class="download-btn" id="downloadFlipbook" type="button">⬇ Download flipbook — offline, about 25 MB</button></p>
+  <p><button class="download-btn" id="downloadFlipbook" type="button">⬇ Download flipbook — offline, about 19 MB</button></p>
   <p>Tap the music button at the bottom right to play or pause, or tap a track above to switch. Pachelbel's Canon in D starts playing when the page opens; the Chopin waltz and "My Perfect Valentine" play only when you choose them.</p>
 </div>
 
@@ -470,8 +470,11 @@ document.getElementById('trackCanon').onclick = () => playTrack('canon');
 document.getElementById('trackChopin').onclick = () => playTrack('chopin');
 document.getElementById('trackValentine').onclick = () => playTrack('valentine');
 
-/* Download flipbook: a single self-contained HTML file (about 25 MB,
+/* Download flipbook: a single self-contained HTML file (about 19 MB,
    pictures and music embedded, works fully offline once downloaded).
+   This is the shareable version: no dedication page, no mention of
+   Christmin, Canon and Chopin only. The dedication stays on this
+   page itself.
    It is too big for the jsDelivr CDN, which refuses files over 20 MB
    ("File size exceeded the configured limit of 20 MB"), so it is
    served from the GitHub repo directly (raw.githubusercontent.com).
@@ -479,7 +482,7 @@ document.getElementById('trackValentine').onclick = () => playTrack('valentine')
    even though the file is large. */
 document.getElementById('downloadFlipbook').addEventListener('click', async () => {
   const btn = document.getElementById('downloadFlipbook');
-  const url = 'https://raw.githubusercontent.com/tjiufamily/travel-toons/main/highlights-of-eastern-europe-flipbook.html';
+  const url = 'https://raw.githubusercontent.com/tjiufamily/travel-toons/main/highlights-of-eastern-europe-flipbook-shared.html';
   btn.disabled = true;
   btn.textContent = 'Downloading flipbook…';
   try {
@@ -489,12 +492,12 @@ document.getElementById('downloadFlipbook').addEventListener('click', async () =
     const dl = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = dl;
-    a.download = 'highlights-of-eastern-europe-flipbook.html';
+    a.download = 'highlights-of-eastern-europe-flipbook-shared.html';
     document.body.appendChild(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(dl), 15000);
-    btn.textContent = '⬇ Download flipbook — offline, about 25 MB';
+    btn.textContent = '⬇ Download flipbook — offline, about 19 MB';
   } catch (e) {
     btn.textContent = 'Download failed — tap to try again';
   } finally {
