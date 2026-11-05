@@ -105,6 +105,9 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 .login-sub{color:var(--ink-dim);margin-bottom:24px}
 .login-card label{display:block;text-align:left;font-size:.85rem;letter-spacing:.08em;color:var(--gold-soft);margin:14px 0 6px}
 .login-card input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#0d0b09;color:var(--ink);font-size:1rem;font-family:var(--sans)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:60px}
+.login-card .pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:auto;margin:0;padding:8px 10px;background:none;border:none;color:var(--gold-soft);font-size:.85rem;cursor:pointer}
 .login-card button{margin-top:22px;width:100%;padding:13px;border-radius:999px;border:1px solid var(--gold);background:var(--gold);color:#14100c;font-size:1rem;cursor:pointer;font-family:var(--sans)}
 .login-card button:disabled{opacity:.6;cursor:wait}
 .login-error{color:#f0a35e;min-height:1.4em;margin-top:12px;font-size:.92rem}
@@ -127,7 +130,10 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
       <label for="email">Email</label>
       <input id="email" name="email" type="email" autocomplete="username" placeholder="Email address" required>
       <label for="password">Password</label>
-      <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required>
+      <div class="pw-wrap">
+        <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required>
+        <button type="button" id="pwToggle" class="pw-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+      </div>
       <button type="submit" id="loginBtn">Sign in</button>
       <p id="loginError" class="login-error" role="alert"></p>
     </form>
@@ -287,6 +293,15 @@ async function loadTrip() {
   build();
 }
 loadTrip().catch(() => { showLogin(); captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
+
+document.getElementById('pwToggle').addEventListener('click', () => {
+  const pw = document.getElementById('password'), btn = document.getElementById('pwToggle');
+  const show = pw.type === 'password';
+  pw.type = show ? 'text' : 'password';
+  btn.textContent = show ? 'Hide' : 'Show';
+  btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+});
 
 document.getElementById('loginForm').addEventListener('submit', async (ev) => {
   ev.preventDefault();

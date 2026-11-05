@@ -95,9 +95,9 @@ const TRIPS = {
           "blurb": "The lakeside village of Hallstatt, then Mozart's Salzburg.",
           "date": "Wed 11 Nov 2026",
           "day": 10,
-          "image": null,
+          "image": "images/day-10.jpg",
           "place": "Hallstatt \u00b7 Salzburg",
-          "thumb": null,
+          "thumb": "images/thumbs/day-10.jpg",
           "title": "Hallstatt & Salzburg"
         },
         {
