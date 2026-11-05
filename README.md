@@ -104,6 +104,12 @@ JSON into `api/trip.js`), then run `python3 deploy.py` as usual.
 ## Notes
 
 - The page is family-only, with no data collected.
+- Install icon: `manifest.json` (name "Travel Toons", theme colour
+  `#0d0b09`) plus `images/icon-192.png`, `images/icon-512.png`, a
+  maskable `images/icon-maskable-512.png` and
+  `images/apple-touch-icon.png`, all cropped from the generic hero
+  artwork. The icons live in the GitHub repo and are served through
+  the jsDelivr CDN, like the other pictures.
 - Music: two tracks. The Chopin waltz AUTOPLAYS when the page opens,
   after sign-in (James's word, 5 Nov 2026: "I want Chopin to auto
   play"). "My Perfect Valentine" never autoplays — it plays only when
