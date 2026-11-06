@@ -2,7 +2,7 @@
 """Build the offline Travel Toons flipbook.
 
 Reads trips.json (the first trip) plus the web-sized day images in
-images/ and the three music files in music/, and writes a single
+images/ and the music files in music/, and writes a single
 self-contained HTML file with everything embedded as data URIs, so the
 flipbook works fully offline once downloaded.
 
@@ -14,7 +14,7 @@ Output: highlights-of-eastern-europe-flipbook.html (about 24 MB).
 With --shared: highlights-of-eastern-europe-flipbook-shared.html,
 the shareable version with no dedication page, no dedication line,
 no mention of Christmin, and no "My Perfect Valentine" track
-(Canon in D and the Chopin waltz only). The Vercel page keeps its
+(Canon in D, the Chopin waltz and the theme song only). The Vercel page keeps its
 dedication; only the shared file is clean for circulation.
 Re-run it whenever a new day's cartoon is added to trips.json and the
 images/ folder; days whose "image" is null are skipped automatically,
@@ -42,10 +42,15 @@ OUT = ROOT / "highlights-of-eastern-europe-flipbook.html"
 SHARED_OUT = ROOT / "highlights-of-eastern-europe-flipbook-shared.html"
 
 # Music files (local), in the order the flipbook plays them.
+# The theme song is FOURTH in the image flipbook: Canon stays the
+# default, the theme song is an extra track (James, 6 Nov 2026).
+# The VIDEO flipbook is different: theme song only, default ON, no
+# other tracks (James, 6 Nov 2026); see VIDEO-WORKFLOW.md.
 TRACKS = [
     ("canon", "Canon in D", "Johann Pachelbel", ROOT / "music" / "pachelbel-canon-in-d.mp3"),
     ("chopin", "Waltz in C-sharp minor, Op. 64 No. 2", "Frédéric Chopin", ROOT / "music" / "chopin-waltz-op64-no2.mp3"),
     ("valentine", "My Perfect Valentine", "written by James for Christmin", ROOT / "music" / "my-perfect-valentine.mp3"),
+    ("theme", "Across the Cobbled Square — Theme song for the trip", "Gemini", ROOT / "music" / "across-the-cobbled-square.mp3"),
 ]
 
 
@@ -75,7 +80,9 @@ def main():
         images[d["day"]] = data_uri(p, "image/jpeg")
 
     # Music as data URIs. Shared version drops the Valentine track
-    # entirely (its credit names Christmin); Canon + Chopin only.
+    # entirely (its credit names Christmin); Canon + Chopin + theme
+    # song stay. The theme song is generic, no names, so it is safe
+    # to circulate.
     all_tracks = TRACKS if not shared else [t for t in TRACKS if t[0] != "valentine"]
     tracks = []
     for key, title, credit, path in all_tracks:
@@ -127,6 +134,7 @@ def main():
     # Music track data (embedded as data URIs).
     canon_uri = tracks[0][3]
     chopin_uri = tracks[1][3]
+    theme_uri = [t[3] for t in tracks if t[0] == "theme"][0]
 
     doc = TEMPLATE
     doc = doc.replace("__TITLE__", html.escape(trip["title"]))
@@ -150,14 +158,14 @@ def main():
             '&#9654; My Perfect Valentine &mdash; written by James for Christmin</button>\n', "")
         doc = doc.replace(
             "  valentine: { title: 'My Perfect Valentine', file: '__VALENTINE_URI__', "
-            "label: 'My Perfect Valentine \\u2014 written by James for Christmin' }\n", "")
+            "label: 'My Perfect Valentine \\u2014 written by James for Christmin' },\n", "")
         doc = doc.replace(
             "  document.getElementById('trackValentine').classList.toggle('active', key === 'valentine');\n", "")
         doc = doc.replace(
             "document.getElementById('trackValentine').onclick = function(){ setTrack('valentine'); };\n", "")
         doc = doc.replace(
-            "; the Chopin waltz and &ldquo;My Perfect Valentine&rdquo; play only when you choose them.",
-            "; the Chopin waltz plays only when you choose it.")
+            "; the Chopin waltz, &ldquo;My Perfect Valentine&rdquo; and the theme song &ldquo;Across the Cobbled Square&rdquo; play only when you choose them.",
+            "; the Chopin waltz and the theme song &ldquo;Across the Cobbled Square&rdquo; play only when you choose them.")
         doc = doc.replace(".page.cover,.page.dedication{", ".page.cover{")
         doc = doc.replace(
             ".page.dedication h2{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:16px}\n", "")
@@ -173,6 +181,7 @@ def main():
     doc = doc.replace("__DAYS_INCLUDED__", str(len(days)))
     doc = doc.replace("__CANON_URI__", canon_uri)
     doc = doc.replace("__CHOPIN_URI__", chopin_uri)
+    doc = doc.replace("__THEME_URI__", theme_uri)
 
     out.write_text(doc, encoding="utf-8")
     size = out.stat().st_size
@@ -250,9 +259,10 @@ __PAGES__
     <button class="track-btn active" id="trackCanon" type="button">&#9654; Canon in D &mdash; Pachelbel</button>
     <button class="track-btn" id="trackChopin" type="button">&#9654; Chopin &mdash; Waltz in C-sharp minor</button>
     <button class="track-btn" id="trackValentine" type="button">&#9654; My Perfect Valentine &mdash; written by James for Christmin</button>
+    <button class="track-btn" id="trackTheme" type="button">&#9654; Across the Cobbled Square &mdash; Theme song</button>
   </p>
   <p><button class="track-btn" id="musicFab" type="button">Pause music</button></p>
-  <p class="hint">Pachelbel&rsquo;s Canon in D starts playing when the flipbook opens; the Chopin waltz and &ldquo;My Perfect Valentine&rdquo; play only when you choose them. This file works fully offline &mdash; the pictures and music are inside it.</p>
+  <p class="hint">Pachelbel&rsquo;s Canon in D starts playing when the flipbook opens; the Chopin waltz, &ldquo;My Perfect Valentine&rdquo; and the theme song &ldquo;Across the Cobbled Square&rdquo; play only when you choose them. This file works fully offline &mdash; the pictures and music are inside it.</p>
 </div>
 
 <audio id="audio" loop preload="auto"></audio>
@@ -313,7 +323,8 @@ render();
 var TRACKS = {
   canon: { title: 'Canon in D', file: '__CANON_URI__', label: 'Canon in D major \u2014 Johann Pachelbel' },
   chopin: { title: 'Chopin', file: '__CHOPIN_URI__', label: 'Waltz in C-sharp minor, Op. 64 No. 2 \u2014 Fr\u00e9d\u00e9ric Chopin' },
-  valentine: { title: 'My Perfect Valentine', file: '__VALENTINE_URI__', label: 'My Perfect Valentine \u2014 written by James for Christmin' }
+  valentine: { title: 'My Perfect Valentine', file: '__VALENTINE_URI__', label: 'My Perfect Valentine \u2014 written by James for Christmin' },
+  theme: { title: 'Across the Cobbled Square', file: '__THEME_URI__', label: 'Across the Cobbled Square \u2014 Theme song for the trip' }
 };
 var audio = document.getElementById('audio');
 var fab = document.getElementById('musicFab');
@@ -326,6 +337,7 @@ function setTrack(key){
   document.getElementById('trackCanon').classList.toggle('active', key === 'canon');
   document.getElementById('trackChopin').classList.toggle('active', key === 'chopin');
   document.getElementById('trackValentine').classList.toggle('active', key === 'valentine');
+  document.getElementById('trackTheme').classList.toggle('active', key === 'theme');
   audio.play().then(function(){
     fab.textContent = 'Pause music';
   }).catch(function(){
@@ -335,6 +347,7 @@ function setTrack(key){
 document.getElementById('trackCanon').onclick = function(){ setTrack('canon'); };
 document.getElementById('trackChopin').onclick = function(){ setTrack('chopin'); };
 document.getElementById('trackValentine').onclick = function(){ setTrack('valentine'); };
+document.getElementById('trackTheme').onclick = function(){ setTrack('theme'); };
 fab.onclick = function(){
   if (audio.paused) {
     audio.play().then(function(){ fab.textContent = 'Pause music'; })
