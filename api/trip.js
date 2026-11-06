@@ -18,7 +18,8 @@ const TRIPS = {
           "image": "images/day-01.jpg",
           "place": "Munich \u00b7 Prague",
           "thumb": "images/thumbs/day-01.jpg",
-          "title": "Munich to Prague"
+          "title": "Munich to Prague",
+          "video": "videos/day-01.mp4"
         },
         {
           "blurb": "A free day to wander: the Jewish Quarter, gelato in 6\u00b0C weather, a boat under Charles Bridge, Kampa Island, and cake at Caf\u00e9 Savoy.",
@@ -27,7 +28,8 @@ const TRIPS = {
           "image": "images/day-02.jpg",
           "place": "Prague",
           "thumb": "images/thumbs/day-02.jpg",
-          "title": "Prague Free Day"
+          "title": "Prague Free Day",
+          "video": "videos/day-02.mp4"
         },
         {
           "blurb": "Dresden rebuilt stone by stone, then the Bastei Bridge high above the Elbe \u2014 a fantasy realm in the mist \u2014 and on to Berlin as the city lights come on.",
@@ -36,7 +38,8 @@ const TRIPS = {
           "image": "images/day-03.jpg",
           "place": "Dresden \u00b7 Bastei \u00b7 Berlin",
           "thumb": "images/thumbs/day-03.jpg",
-          "title": "Dresden to Berlin"
+          "title": "Dresden to Berlin",
+          "video": "videos/day-03.mp4"
         },
         {
           "blurb": "The Berlin Wall, Checkpoint Charlie and the Brandenburg Gate in the morning; golden Silesian fields through the coach window, and Wroc\u0142aw's storybook square at dusk.",
@@ -45,7 +48,8 @@ const TRIPS = {
           "image": "images/day-04.jpg",
           "place": "Berlin \u00b7 Wroc\u0142aw",
           "thumb": "images/thumbs/day-04.jpg",
-          "title": "Berlin to Wroc\u0142aw"
+          "title": "Berlin to Wroc\u0142aw",
+          "video": "videos/day-04.mp4"
         },
         {
           "blurb": "A treasure hunt for Wroc\u0142aw's little bronze dwarfs, the padlocked bridge to Cathedral Island, and Krak\u00f3w's great medieval square under the lanterns.",
@@ -54,7 +58,8 @@ const TRIPS = {
           "image": "images/day-05.jpg",
           "place": "Wroc\u0142aw \u00b7 Krak\u00f3w",
           "thumb": "images/thumbs/day-05.jpg",
-          "title": "Wroc\u0142aw to Krak\u00f3w"
+          "title": "Wroc\u0142aw to Krak\u00f3w",
+          "video": "videos/day-05.mp4"
         },
         {
           "blurb": "A quiet morning of remembrance at Auschwitz-Birkenau, then deep underground to the salt chapels of Wieliczka \u2014 a day of contrasts, held gently.",
@@ -63,7 +68,8 @@ const TRIPS = {
           "image": "images/day-06.jpg",
           "place": "Auschwitz-Birkenau \u00b7 Wieliczka",
           "thumb": "images/thumbs/day-06.jpg",
-          "title": "Krak\u00f3w Memorial & Salt Mine"
+          "title": "Krak\u00f3w Memorial & Salt Mine",
+          "video": "videos/day-06.mp4"
         },
         {
           "blurb": "Across the High Tatras and Slovakia to Budapest, on the Danube.",
@@ -72,7 +78,8 @@ const TRIPS = {
           "image": "images/day-07.jpg",
           "place": "High Tatras \u00b7 Slovakia \u00b7 Budapest",
           "thumb": null,
-          "title": "Krak\u00f3w to Budapest"
+          "title": "Krak\u00f3w to Budapest",
+          "video": "videos/day-07.mp4"
         },
         {
           "blurb": "Budapest in a day, and an evening cruise on the Danube.",
@@ -81,7 +88,8 @@ const TRIPS = {
           "image": "images/day-08.jpg",
           "place": "Budapest",
           "thumb": "images/thumbs/day-08.jpg",
-          "title": "Budapest"
+          "title": "Budapest",
+          "video": "videos/day-08.mp4"
         },
         {
           "blurb": "Parndorf outlet village, then Sch\u00f6nbrunn Palace and Vienna.",
@@ -90,7 +98,8 @@ const TRIPS = {
           "image": "images/day-09.jpg",
           "place": "Parndorf \u00b7 Vienna",
           "thumb": null,
-          "title": "Parndorf & Vienna"
+          "title": "Parndorf & Vienna",
+          "video": "videos/day-09.mp4"
         },
         {
           "blurb": "The lakeside village of Hallstatt, then Mozart's Salzburg.",
@@ -99,7 +108,8 @@ const TRIPS = {
           "image": "images/day-10.jpg",
           "place": "Hallstatt \u00b7 Salzburg",
           "thumb": "images/thumbs/day-10.jpg",
-          "title": "Hallstatt & Salzburg"
+          "title": "Hallstatt & Salzburg",
+          "video": "videos/day-10.mp4"
         },
         {
           "blurb": "The fairytale castle of Neuschwanstein, and back to Munich.",
@@ -108,7 +118,8 @@ const TRIPS = {
           "image": "images/day-11.jpg",
           "place": "Neuschwanstein \u00b7 F\u00fcssen \u00b7 Munich",
           "thumb": "images/thumbs/day-11.jpg",
-          "title": "Neuschwanstein & Munich"
+          "title": "Neuschwanstein & Munich",
+          "video": "videos/day-11.mp4"
         },
         {
           "blurb": "One last morning in Munich, then homeward on SQ327.",
@@ -117,7 +128,8 @@ const TRIPS = {
           "image": "images/day-12.jpg",
           "place": "Munich",
           "thumb": "images/thumbs/day-12.jpg",
-          "title": "Munich Departure"
+          "title": "Munich Departure",
+          "video": "videos/day-12.mp4"
         },
         {
           "blurb": "Home again, with thirteen days of stories to tell.",
@@ -126,7 +138,8 @@ const TRIPS = {
           "image": "images/day-13.jpg",
           "place": "Singapore",
           "thumb": "images/thumbs/day-13.jpg",
-          "title": "Arrive Singapore"
+          "title": "Arrive Singapore",
+          "video": "videos/day-13.mp4"
         }
       ],
       "dedicatedSong": {
@@ -169,7 +182,14 @@ const TRIPS = {
         "source": "Gemini",
         "title": "Across the Cobbled Square"
       },
-      "title": "Highlights of Eastern Europe"
+      "title": "Highlights of Eastern Europe",
+      "film": {
+        "title": "Highlights of Eastern Europe \u2014 the film",
+        "file": "videos/film-highlights-eastern-europe.mp4",
+        "duration": "2 minutes 10 seconds",
+        "size": "about 37 MB",
+        "note": "All thirteen days in one film, with the narration and the theme song \"Across the Cobbled Square\" underneath, and subtitles throughout."
+      }
     }
   ]
 };

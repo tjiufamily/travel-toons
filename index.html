@@ -110,6 +110,8 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,4vw,2.3rem);m
 .download-btn{display:inline-block;margin:10px 0 4px;padding:12px 22px;border:1px solid var(--gold);border-radius:999px;background:var(--gold);color:#14100c;font-family:var(--sans);font-size:1rem;cursor:pointer}
 .download-btn:disabled{opacity:.6;cursor:wait}
 .download-btn:hover{filter:brightness(1.08)}
+.video-player{width:100%;aspect-ratio:16/9;display:block;background:#000;border-radius:14px}
+.film-note{color:var(--ink-dim);font-size:.9rem;margin-top:10px}
 footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 20px 90px;text-align:center;color:var(--ink-dim);font-size:.88rem}
 footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#f7ead0;margin-bottom:10px}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
@@ -182,7 +184,7 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
 
   <section id="journey" class="reveal">
     <h2>The journey, day by day</h2>
-    <p class="section-lede">Each day of the trip became one cartoon — six panels, one picture. Swipe across, or tap a day below. Days 7 to 13 are still being drawn, and will appear here as they arrive.</p>
+    <p class="section-lede">Each day of the trip became one cartoon, six panels in one picture, and each one moves for ten seconds. Swipe across, or tap a day below.</p>
 
     <div class="stage" id="stage" aria-roledescription="carousel" aria-label="Travel toon days">
       <div class="slides" id="slides"></div>
@@ -191,8 +193,22 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
     </div>
 
     <div class="caption" id="caption"></div>
+    <p style="margin-top:12px"><button class="track-btn" id="watchDayBtn" type="button">▶ Watch this day move (10 sec)</button></p>
+    <div id="dayVideoWrap" class="hidden" style="margin-top:12px">
+      <video id="dayVideo" class="video-player" controls preload="metadata" playsinline></video>
+    </div>
     <div class="progress"><i id="progressBar"></i></div>
     <div class="dots" id="dots"></div>
+  </section>
+
+  <section id="film" class="reveal">
+    <h2>Watch the film</h2>
+    <p class="section-lede" id="filmLede"></p>
+    <div class="stage">
+      <video id="filmVideo" class="video-player" controls preload="metadata" playsinline></video>
+    </div>
+    <p style="margin-top:14px"><button class="download-btn" id="downloadFilm" type="button">⬇ Download the film</button></p>
+    <p class="film-note">Two minutes ten seconds, with narration, the theme song underneath, and subtitles throughout. Best watched on WiFi.</p>
   </section>
 
   <section class="reveal">
@@ -242,6 +258,9 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
    and returned 404 for it after the push (the @main URL serves the same
    file once jsDelivr syncs). */
 const CDN = 'https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main';
+/* RAW serves the files too big for jsDelivr (over 20 MB): the film and the
+   flipbook download. Same route the flipbook download already uses. */
+const RAW = 'https://raw.githubusercontent.com/tjiufamily/travel-toons/main';
 const asset = p => p ? (p.indexOf('://') > 0 ? p : (CDN ? CDN + '/' + p : p)) : null;
 let TRIP = null, idx = 0;
 const slidesEl = document.getElementById('slides'),
@@ -315,6 +334,19 @@ async function loadTrip() {
     label.textContent = 'Tap to play Canon in D ♫'; fab.setAttribute('aria-label','Play music');
   });
   build();
+  /* Film: the full 13-day film, narration and theme song baked in with
+     subtitles burned in. The file is about 37 MB, over jsDelivr's 20 MB
+     cap, so it is served from the GitHub repo directly (RAW), the same
+     route as the flipbook download. The day clips are small enough for
+     jsDelivr and use asset() instead (see the Watch button below). */
+  const film = TRIP.film;
+  if (film) {
+    document.getElementById('filmLede').textContent = film.note;
+    const fv = document.getElementById('filmVideo');
+    fv.src = RAW + '/' + film.file;
+    fv.poster = asset(TRIP.days[0].image);
+    document.getElementById('downloadFilm').textContent = '⬇ Download the film — ' + film.size;
+  }
   return true;
 }
 loadTrip().catch(() => { showLogin(); captionEl.innerHTML = '<p>Could not load the trip. Please try again later.</p>'; });
@@ -423,6 +455,11 @@ function go(i, first){
   barEl.style.width = ((idx + 1) / n * 100) + '%';
   [...dotsEl.children].forEach((el, k) => el.classList.toggle('active', k === idx));
   [...stripEl.children].forEach((el, k) => el.classList.toggle('active', k === idx));
+  /* Changing day closes the day video, so it never plays the wrong day. */
+  const dv = document.getElementById('dayVideo');
+  if (dv && !dv.paused) dv.pause();
+  document.getElementById('dayVideoWrap').classList.add('hidden');
+  document.getElementById('watchDayBtn').textContent = '▶ Watch this day move (10 sec)';
   if (!first) { const live = document.querySelector('.slide'); }
 }
 
@@ -490,6 +527,55 @@ document.getElementById('trackCanon').onclick = () => playTrack('canon');
 document.getElementById('trackChopin').onclick = () => playTrack('chopin');
 document.getElementById('trackValentine').onclick = () => playTrack('valentine');
 document.getElementById('trackTheme').onclick = () => playTrack('theme');
+
+/* Watch this day move: the current day's 10-second clip, silent (the
+   sound lives in the film). Served from jsDelivr like the pictures. */
+document.getElementById('watchDayBtn').addEventListener('click', () => {
+  if (!TRIP) return;
+  const d = TRIP.days[idx];
+  if (!d.video) return;
+  const wrap = document.getElementById('dayVideoWrap'), dv = document.getElementById('dayVideo');
+  dv.src = asset(d.video);
+  wrap.classList.remove('hidden');
+  dv.play().catch(() => {});
+  document.getElementById('watchDayBtn').textContent = '▶ Playing Day ' + d.day + ' (10 sec)';
+});
+/* Playing any video pauses the page music, so the film's own narration
+   and theme song are never doubled up with Canon. */
+document.getElementById('filmVideo').addEventListener('play', () => {
+  if (!audio.paused) { audio.pause(); setPausedUI(); }
+});
+document.getElementById('dayVideo').addEventListener('play', () => {
+  if (!audio.paused) { audio.pause(); setPausedUI(); }
+});
+
+/* Download the film: same fetch-and-save pattern as the flipbook, because
+   the 37 MB file is too big for jsDelivr and lives on raw GitHub. */
+document.getElementById('downloadFilm').addEventListener('click', async () => {
+  if (!TRIP || !TRIP.film) return;
+  const btn = document.getElementById('downloadFilm');
+  const url = RAW + '/' + TRIP.film.file;
+  btn.disabled = true;
+  btn.textContent = 'Downloading the film…';
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const blob = await r.blob();
+    const dl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = dl;
+    a.download = 'film-highlights-eastern-europe.mp4';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(dl), 15000);
+    btn.textContent = '⬇ Download the film — ' + TRIP.film.size;
+  } catch (e) {
+    btn.textContent = 'Download failed — tap to try again';
+  } finally {
+    btn.disabled = false;
+  }
+});
 
 /* Download flipbook: a single self-contained HTML file (about 19 MB,
    pictures and music embedded, works fully offline once downloaded).
