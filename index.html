@@ -25,6 +25,20 @@ a{color:var(--gold-soft)}
 /* ---------- Hero ---------- */
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;animation:kenburns 24s ease-in-out infinite alternate;filter:saturate(1.05)}
+/* Portrait phones: the hero picture is a wide 16:9 image of the couple.
+   Cover-cropping it to a tall narrow screen cuts the woman off one side,
+   so in portrait show the whole picture instead (contain, no crop, no
+   zoom), with the title and dedication in the dark space below it.
+   Landscape keeps the full-bleed cover look. The page adjusts
+   automatically when the phone is turned. */
+@media (orientation:portrait){
+  .hero{min-height:92svh}
+  .hero-img{object-fit:contain;object-position:center 22%;background:var(--bg);animation:none}
+}
+@media (orientation:landscape){
+  .hero{min-height:100svh}
+  .hero-img{object-fit:cover;object-position:center 30%}
+}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.08) translateY(-1.5%)}}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,11,9,.25) 0%,rgba(13,11,9,.05) 40%,rgba(13,11,9,.82) 78%,var(--bg) 100%)}
 .hero-inner{position:relative;z-index:2;padding:clamp(20px,5vw,64px);max-width:1100px}
@@ -199,9 +213,10 @@ footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#
   <p><span id="musicCredit"></span></p>
   <p><button class="track-btn" id="trackCanon" type="button">▶ Canon in D — Pachelbel</button>
      <button class="track-btn" id="trackChopin" type="button">▶ Chopin — Waltz in C-sharp minor</button>
-     <button class="track-btn" id="trackValentine" type="button">▶ My Perfect Valentine — written by James for Christmin</button></p>
-  <p><button class="download-btn" id="downloadFlipbook" type="button">⬇ Download flipbook — offline, about 19 MB</button></p>
-  <p>Tap the music button at the bottom right to play or pause, or tap a track above to switch. Pachelbel's Canon in D starts playing when the page opens; the Chopin waltz and "My Perfect Valentine" play only when you choose them.</p>
+     <button class="track-btn" id="trackValentine" type="button">▶ My Perfect Valentine — written by James for Christmin</button>
+     <button class="track-btn" id="trackTheme" type="button">▶ Across the Cobbled Square — Theme song</button></p>
+  <p><button class="download-btn" id="downloadFlipbook" type="button">⬇ Download flipbook — offline, about 23 MB</button></p>
+  <p>Tap the music button at the bottom right to play or pause, or tap a track above to switch. Pachelbel's Canon in D starts playing when the page opens; the Chopin waltz, "My Perfect Valentine" and the theme song "Across the Cobbled Square" play only when you choose them.</p>
 </div>
 
 <footer>
@@ -271,19 +286,21 @@ async function loadTrip() {
   const paras = intro.split(/(?<=\.)\s+(?=You are the reason|Thank you for being)/);
   document.getElementById('dedicationText').innerHTML = paras.map(p => '<p>' + p + '</p>').join('');
   document.getElementById('route').innerHTML = TRIP.route.split('·').map(s => '<span>' + s.trim() + '</span>').join('<i>→</i>');
-  /* Music: three tracks. Pachelbel's Canon in D AUTOPLAYS when the page
+  /* Music: four tracks. Pachelbel's Canon in D AUTOPLAYS when the page
      opens (James's word, 5 Nov 2026: "Canon is default"). The Chopin
-     waltz and his song "My Perfect Valentine" never autoplay — they play
-     only when the listener taps their track button. */
-  const m = TRIP.music, second = TRIP.secondTrack, song = TRIP.dedicatedSong;
+     waltz, his song "My Perfect Valentine" and the theme song "Across
+     the Cobbled Square" never autoplay — they play only when the
+     listener taps their track button. */
+  const m = TRIP.music, second = TRIP.secondTrack, song = TRIP.dedicatedSong, theme = TRIP.themeSong;
   const credit = m.title + ' — ' + m.composer + ', performed by ' + m.performer + ' (' + m.source + ', ' + m.licence + '). ' + m.note;
   document.getElementById('musicCredit').textContent = credit;
-  document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + '). Also on this page: "' + second.title + '" by ' + second.composer + ', performed by ' + second.performer + ' (' + second.source + ', ' + second.licence + '); and "' + song.title + '", written by James for Christmin.';
+  document.getElementById('footerCredit').textContent = 'Music: ' + m.title + ' by ' + m.composer + ', performed by ' + m.performer + ' — ' + m.source + ' (' + m.licence + '). Also on this page: "' + second.title + '" by ' + second.composer + ', performed by ' + second.performer + ' (' + second.source + ', ' + second.licence + '); "' + song.title + '", written by James for Christmin; and "' + theme.title + '", the theme song for the trip (' + theme.source + ', ' + theme.licence + ').';
   currentTrack = { key: 'canon', title: 'Canon in D', file: m.file };
   document.getElementById('nowPlaying').textContent = m.title + ' — ' + m.composer;
   document.getElementById('trackCanon').textContent = '▶ Canon in D — Pachelbel';
   document.getElementById('trackChopin').textContent = '▶ Chopin — Waltz in C-sharp minor';
   document.getElementById('trackValentine').textContent = '▶ ' + song.title + ' — written by James for Christmin';
+  document.getElementById('trackTheme').textContent = '▶ ' + theme.title + ' — Theme song';
   document.getElementById('trackCanon').classList.add('active');
   /* Canon autoplay: src is set as soon as the trip loads (after sign-in,
      so the sign-in tap already counts as interaction with the page), and
@@ -429,9 +446,9 @@ stage.addEventListener('pointerup', e => {
 stage.addEventListener('pointercancel', () => { dragging = false; startX = null; });
 
 /* Music controls. The Canon autoplays on load (see loadTrip); the Chopin
-   waltz and the dedicated song never autoplay — they start only from
-   their track buttons below. The floating button plays/pauses whichever
-   track is current, and its label always names that track. */
+   waltz, the dedicated song and the theme song never autoplay — they start
+   only from their track buttons below. The floating button plays/pauses
+   whichever track is current, and its label always names that track. */
 let currentTrack = null;   /* { key, title, file } — set by loadTrip */
 const audio = document.getElementById('audio'),
       fab = document.getElementById('musicFab'),
@@ -446,14 +463,17 @@ function setPausedUI() {
 }
 function playTrack(key) {
   if (!TRIP) return;
-  const t = key === 'valentine' ? TRIP.dedicatedSong : key === 'chopin' ? TRIP.secondTrack : TRIP.music;
+  const t = key === 'theme' ? TRIP.themeSong : key === 'valentine' ? TRIP.dedicatedSong : key === 'chopin' ? TRIP.secondTrack : TRIP.music;
   currentTrack = { key: key, title: key === 'canon' ? 'Canon in D' : key === 'chopin' ? 'Chopin' : t.title, file: t.file };
   document.getElementById('nowPlaying').textContent = key === 'valentine'
     ? t.title + ' — written by James for Christmin'
+    : key === 'theme'
+    ? t.title + ' — Theme song for the trip'
     : t.title + ' — ' + t.composer;
   document.getElementById('trackCanon').classList.toggle('active', key === 'canon');
   document.getElementById('trackChopin').classList.toggle('active', key === 'chopin');
   document.getElementById('trackValentine').classList.toggle('active', key === 'valentine');
+  document.getElementById('trackTheme').classList.toggle('active', key === 'theme');
   audio.src = asset(t.file);
   audio.play().then(setPlayingUI).catch(() => { label.textContent = 'Tap to play ' + currentTrack.title + ' ♫'; });
 }
@@ -469,11 +489,12 @@ fab.onclick = () => {
 document.getElementById('trackCanon').onclick = () => playTrack('canon');
 document.getElementById('trackChopin').onclick = () => playTrack('chopin');
 document.getElementById('trackValentine').onclick = () => playTrack('valentine');
+document.getElementById('trackTheme').onclick = () => playTrack('theme');
 
 /* Download flipbook: a single self-contained HTML file (about 19 MB,
    pictures and music embedded, works fully offline once downloaded).
    This is the shareable version: no dedication page, no mention of
-   Christmin, Canon and Chopin only. The dedication stays on this
+   Christmin, Canon, Chopin and the theme song only. The dedication stays on this
    page itself.
    It is too big for the jsDelivr CDN, which refuses files over 20 MB
    ("File size exceeded the configured limit of 20 MB"), so it is
