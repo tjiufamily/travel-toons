@@ -111,6 +111,10 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,4vw,2.3rem);m
 .download-btn:disabled{opacity:.6;cursor:wait}
 .download-btn:hover{filter:brightness(1.08)}
 .video-player{width:100%;aspect-ratio:16/9;display:block;background:#000;border-radius:14px}
+/* The film is 1280x820: the cartoon fills the top 1280x720 and a 100px
+   black subtitle bar sits below it, so the subtitles never cover the
+   panels. The player box matches, and contain keeps the poster honest. */
+#filmVideo{aspect-ratio:128/82;object-fit:contain}
 .film-note{color:var(--ink-dim);font-size:.9rem;margin-top:10px}
 footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 20px 90px;text-align:center;color:var(--ink-dim);font-size:.88rem}
 footer .ded{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#f7ead0;margin-bottom:10px}

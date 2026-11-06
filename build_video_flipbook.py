@@ -9,8 +9,9 @@ that REFERENCES its media by URL instead of embedding it:
     (videos/day-NN.mp4), with the day cartoon as its poster image
   - each day page plays its narration slice (audio/narration-day-NN.mp3,
     cut from the continuous Vanessa narration by the SRT cue times)
-  - subtitles: the day's SRT cue text as a caption overlay while the
-    clip plays
+  - subtitles: the day's SRT cue text as a caption bar BELOW the video
+    (never overlaid on the panels, so the words never cover the cartoon),
+    shown while the clip plays
   - music: the theme song ONLY ("Across the Cobbled Square", via
     jsDelivr), default ON; it pauses while a day video plays and comes
     back when the video ends, only if the user had it on
@@ -115,8 +116,8 @@ def main():
             '<video class="day-video" controls playsinline preload="metadata" poster="' + poster_url + '">'
             '<source src="' + video_url + '" type="video/mp4">'
             '</video>'
-            '<div class="subtitle-overlay">' + cues[day] + '</div>'
             '</div>'
+            '<div class="subtitle-overlay">' + cues[day] + '</div>'
             '<audio class="day-narr" preload="none" src="' + narr_url + '"></audio>'
             '<div class="day-cap">'
             '<p class="day-tag">Day ' + str(day) + ' of 13 &middot; ' + html.escape(d["date"]) + ' &middot; ' + html.escape(d["place"]) + '</p>'
@@ -177,10 +178,10 @@ h1,h2,h3{font-family:var(--serif);font-weight:400}
 .ded-text p{margin-bottom:14px}
 .video-wrap{position:relative;flex:0 0 auto;background:#000}
 .page.day video.day-video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#000}
-.subtitle-overlay{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);max-width:92%;background:rgba(0,0,0,.75);color:#fff;padding:6px 12px;border-radius:8px;font-size:.95rem;line-height:1.45;text-align:center;display:none}
+.subtitle-overlay{display:none;margin:10px 16px 0;background:rgba(0,0,0,.75);color:#fff;padding:8px 12px;border-radius:8px;font-size:.95rem;line-height:1.45;text-align:center}
 .subtitle-overlay.show{display:block}
 .day-cap{flex:1 1 auto;min-height:0;padding:16px 20px 14px;overflow-y:auto}
-@media (max-width:700px){.book{aspect-ratio:16/18}.day-cap{padding:12px 16px 16px}.day-cap h3{font-size:1.25rem}.subtitle-overlay{font-size:.85rem;bottom:8px}}
+@media (max-width:700px){.book{aspect-ratio:16/18}.day-cap{padding:12px 16px 16px}.day-cap h3{font-size:1.25rem}.subtitle-overlay{font-size:.85rem;margin:8px 12px 0}}
 .day-tag{color:var(--gold-soft);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
 .day-cap h3{font-size:clamp(1.3rem,3.4vw,1.8rem);margin:4px 0 6px}
 .day-cap p{color:var(--ink-dim)}
