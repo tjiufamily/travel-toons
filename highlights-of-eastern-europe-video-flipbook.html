@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Highlights of Eastern Europe — Video Flipbook</title>
+<style>
+:root{--ink:#f5efe4;--ink-dim:#cfc4ae;--gold:#d9a441;--gold-soft:#e8c37a;--bg:#0d0b09;--card:#1d1813;--line:rgba(217,164,65,.35);--serif:Georgia,'Times New Roman',serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:18px 14px 28px}
+h1,h2,h3{font-family:var(--serif);font-weight:400}
+.top{width:100%;max-width:920px;text-align:center;margin-bottom:14px}
+.top h1{font-size:clamp(1.5rem,4.5vw,2.2rem)}
+.top p{color:var(--ink-dim);font-size:.9rem}
+.book{position:relative;width:100%;max-width:920px;aspect-ratio:16/14;perspective:1800px}
+.page{position:absolute;inset:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;backface-visibility:hidden;transform-origin:left center;transition:transform .75s cubic-bezier(.22,.8,.24,1);display:flex;flex-direction:column}
+.page.flipped{transform:rotateY(-180deg);pointer-events:none}
+.page.cover,.page.dedication{align-items:center;justify-content:center;text-align:center;padding:28px 26px;background:radial-gradient(120% 120% at 20% 10%,#2b2118 0%,#171310 55%,#0d0b09 100%)}
+.cover-eyebrow{letter-spacing:.35em;text-transform:uppercase;font-size:.7rem;color:var(--gold-soft);margin-bottom:14px}
+.page.cover h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.1}
+.cover-sub{font-family:var(--serif);font-style:italic;color:var(--ink-dim);margin-top:10px;font-size:clamp(1rem,2.4vw,1.3rem)}
+.cover-dates{margin-top:16px;color:var(--gold-soft);letter-spacing:.12em;text-transform:uppercase;font-size:.85rem}
+.cover-ded{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,2.4vw,1.25rem);color:#f7ead0;margin-top:18px}
+.cover-now{margin-top:14px;color:var(--gold-soft);font-size:.9rem;letter-spacing:.06em}
+.cover-hint{margin-top:26px;color:var(--gold-soft);letter-spacing:.18em;text-transform:uppercase;font-size:.8rem}
+.page.dedication h2{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:16px}
+.ded-text{font-family:var(--serif);font-size:clamp(1rem,2.2vw,1.2rem);line-height:1.85;color:#f7ead0;max-width:640px;text-align:left;overflow-y:auto}
+.ded-text p{margin-bottom:14px}
+.video-wrap{position:relative;flex:0 0 auto;background:#000}
+.page.day video.day-video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#000}
+.subtitle-overlay{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);max-width:92%;background:rgba(0,0,0,.75);color:#fff;padding:6px 12px;border-radius:8px;font-size:.95rem;line-height:1.45;text-align:center;display:none}
+.subtitle-overlay.show{display:block}
+.day-cap{flex:1 1 auto;min-height:0;padding:16px 20px 14px;overflow-y:auto}
+@media (max-width:700px){.book{aspect-ratio:16/18}.day-cap{padding:12px 16px 16px}.day-cap h3{font-size:1.25rem}.subtitle-overlay{font-size:.85rem;bottom:8px}}
+.day-tag{color:var(--gold-soft);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+.day-cap h3{font-size:clamp(1.3rem,3.4vw,1.8rem);margin:4px 0 6px}
+.day-cap p{color:var(--ink-dim)}
+.watch-note{margin-top:10px;font-size:.88rem;color:var(--gold-soft)}
+.page-num{margin-top:auto;padding:0 20px 12px;color:var(--ink-dim);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+.controls{width:100%;max-width:920px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+.controls button{padding:11px 20px;border-radius:999px;border:1px solid var(--gold);background:var(--gold);color:#14100c;font-size:1rem;cursor:pointer;font-family:var(--sans)}
+.controls button:disabled{opacity:.45;cursor:default}
+.controls button.ghost{background:transparent;color:var(--gold-soft);border-color:var(--line)}
+.page-label{color:var(--ink-dim);font-size:.9rem;text-align:center}
+.music{width:100%;max-width:920px;margin-top:18px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:rgba(23,19,16,.85);text-align:center}
+.music .now{color:var(--ink-dim);font-size:.9rem;margin-bottom:10px}
+.music .now b{color:var(--ink)}
+.track-btn{display:inline-block;margin:5px 6px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(23,19,16,.85);color:var(--ink);font-family:var(--sans);font-size:.85rem;cursor:pointer}
+.track-btn:hover,.track-btn.active{border-color:var(--gold);color:var(--gold-soft)}
+.music .hint{color:var(--ink-dim);font-size:.82rem;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>Highlights of Eastern Europe</h1>
+  <p>2 – 14 November 2026 &middot; Dedicated to Christmin — my love, my travelling companion.</p>
+</div>
+
+<div class="book" id="book">
+<div class="page cover" data-i="0"><p class="cover-eyebrow">A travel toon journey</p><h1>Highlights of Eastern Europe</h1><p class="cover-sub">A cartoon journey in thirteen days</p><p class="cover-dates">2 – 14 November 2026</p><p class="cover-ded">Dedicated to Christmin — my love, my travelling companion.</p><p class="cover-now">Now playing: Across the Cobbled Square &mdash; Theme song</p><p class="cover-hint">Tap or swipe to begin &rsaquo;</p></div>
+<div class="page dedication" data-i="1"><h2>For Christmin</h2><div class="ded-text"><p>Christmin, my love, this page is for you. You gave up a classroom you had served for twenty-four years, so that you could walk beside me into the world. You did not just come along. You chose this, you chose us, and every mile since has been better because you chose it. You are the reason our trips feel the way they do. You pack with a care no one sees, the warm coat, the snack for the long ride, the little thing that turns a cold morning into a comfortable one. You notice beauty first and point it out, so I look again and see it too. You turn a long journey into a conversation, a wrong turn into a story, and a strange city into a place that feels like home, because you are in it. Thank you for being my wife, my best friend, and my fellow traveller. These drawings are only drawings. The real story is you, beside me, every day of the journey. I love you.</p></div><p class="page-num">Dedication</p></div>
+<div class="page day" data-i="2"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-01.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-01.mp4" type="video/mp4"></video><div class="subtitle-overlay">Stepping off the overnight flight into Munich&#x27;s biting air,<br>we rolled across Bohemia into Prague, arriving as golden spires above Charles Bridge caught the evening light.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-01.mp3"></audio><div class="day-cap"><p class="day-tag">Day 1 of 13 &middot; Mon 2 Nov 2026 &middot; Munich · Prague</p><h3>Munich to Prague</h3><p>Touchdown in Munich, then the coach rolls into Bohemia. Prague Castle and Charles Bridge at golden hour, and our first night at the NH Prague City.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="3"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-02.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-02.mp4" type="video/mp4"></video><div class="subtitle-overlay">The next morning invited us to wander without a schedule,<br>sharing gelato in the cold before drifting in a small wooden boat under the bridge.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-02.mp3"></audio><div class="day-cap"><p class="day-tag">Day 2 of 13 &middot; Tue 3 Nov 2026 &middot; Prague</p><h3>Prague Free Day</h3><p>A free day to wander: the Jewish Quarter, gelato in 6°C weather, a boat under Charles Bridge, Kampa Island, and cake at Café Savoy.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="4"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-03.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-03.mp4" type="video/mp4"></video><div class="subtitle-overlay">Leaving Bohemia, we traced Dresden&#x27;s rebuilt stones<br>and climbed high into Bastei&#x27;s foggy sandstone cliffs before evening lights welcomed us to Berlin.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-03.mp3"></audio><div class="day-cap"><p class="day-tag">Day 3 of 13 &middot; Wed 4 Nov 2026 &middot; Dresden · Bastei · Berlin</p><h3>Dresden to Berlin</h3><p>Dresden rebuilt stone by stone, then the Bastei Bridge high above the Elbe — a fantasy realm in the mist — and on to Berlin as the city lights come on.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="5"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-04.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-04.mp4" type="video/mp4"></video><div class="subtitle-overlay">Painted murals along the Berlin Wall soon gave way to open country,<br>crossing into Poland where Wroclaw&#x27;s storybook gables glowed at dusk.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-04.mp3"></audio><div class="day-cap"><p class="day-tag">Day 4 of 13 &middot; Thu 5 Nov 2026 &middot; Berlin · Wrocław</p><h3>Berlin to Wrocław</h3><p>The Berlin Wall, Checkpoint Charlie and the Brandenburg Gate in the morning; golden Silesian fields through the coach window, and Wrocław&#x27;s storybook square at dusk.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="6"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-05.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-05.mp4" type="video/mp4"></video><div class="subtitle-overlay">Hunting tiny bronze dwarfs along cobbled lanes brought easy laughter,<br>carrying that playful warmth all the way to Krakow&#x27;s grand medieval square.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-05.mp3"></audio><div class="day-cap"><p class="day-tag">Day 5 of 13 &middot; Fri 6 Nov 2026 &middot; Wrocław · Kraków</p><h3>Wrocław to Kraków</h3><p>A treasure hunt for Wrocław&#x27;s little bronze dwarfs, the padlocked bridge to Cathedral Island, and Kraków&#x27;s great medieval square under the lanterns.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="7"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-06.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-06.mp4" type="video/mp4"></video><div class="subtitle-overlay">A solemn, misty silence hung over Birkenau&#x27;s tracks the next morning,<br>before we descended deep underground into Wieliczka&#x27;s salt-carved chapel.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-06.mp3"></audio><div class="day-cap"><p class="day-tag">Day 6 of 13 &middot; Sat 7 Nov 2026 &middot; Auschwitz-Birkenau · Wieliczka</p><h3>Kraków Memorial &amp; Salt Mine</h3><p>A quiet morning of remembrance at Auschwitz-Birkenau, then deep underground to the salt chapels of Wieliczka — a day of contrasts, held gently.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="8"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-07.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-07.mp4" type="video/mp4"></video><div class="subtitle-overlay">Climbing toward Slovakia, fresh snowflakes dusted the Tatras while hot punch warmed our hands,<br>leading us onward until the Danube shimmered gold beneath Budapest&#x27;s illuminated Parliament.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-07.mp3"></audio><div class="day-cap"><p class="day-tag">Day 7 of 13 &middot; Sun 8 Nov 2026 &middot; High Tatras · Slovakia · Budapest</p><h3>Kraków to Budapest</h3><p>Across the High Tatras and Slovakia to Budapest, on the Danube.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="9"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-08.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-08.mp4" type="video/mp4"></video><div class="subtitle-overlay">Budapest wrapped us in romance, from fairytale castle arches and a quiet Michelin lunch<br>to an evening boat gliding past that glowing riverbank.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-08.mp3"></audio><div class="day-cap"><p class="day-tag">Day 8 of 13 &middot; Mon 9 Nov 2026 &middot; Budapest</p><h3>Budapest</h3><p>Budapest in a day, and an evening cruise on the Danube.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="10"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-09.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-09.mp4" type="video/mp4"></video><div class="subtitle-overlay">Crossing into Austria, browsing winter coats gave way<br>to Schönbrunn&#x27;s yellow facade and rich Sachertorte in a warm, velvet cafe.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-09.mp3"></audio><div class="day-cap"><p class="day-tag">Day 9 of 13 &middot; Tue 10 Nov 2026 &middot; Parndorf · Vienna</p><h3>Parndorf &amp; Vienna</h3><p>Parndorf outlet village, then Schönbrunn Palace and Vienna.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="11"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-10.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-10.mp4" type="video/mp4"></video><div class="subtitle-overlay">From there, alpine stillness greeted us as Hallstatt reflected on glass-like water<br>before dusk gathered beneath Salzburg&#x27;s fortress.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-10.mp3"></audio><div class="day-cap"><p class="day-tag">Day 10 of 13 &middot; Wed 11 Nov 2026 &middot; Hallstatt · Salzburg</p><h3>Hallstatt &amp; Salzburg</h3><p>The lakeside village of Hallstatt, then Mozart&#x27;s Salzburg.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="12"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-11.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-11.mp4" type="video/mp4"></video><div class="subtitle-overlay">Snowy pines framed Neuschwanstein&#x27;s fairytale turrets,<br>closing our loop back to Munich with warm pretzels and a fireside toast.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-11.mp3"></audio><div class="day-cap"><p class="day-tag">Day 11 of 13 &middot; Thu 12 Nov 2026 &middot; Neuschwanstein · Füssen · Munich</p><h3>Neuschwanstein &amp; Munich</h3><p>The fairytale castle of Neuschwanstein, and back to Munich.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="13"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-12.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-12.mp4" type="video/mp4"></video><div class="subtitle-overlay">Bags zipped full of keepsakes, we boarded homeward,<br>watching snowy Alps slip beneath our wings.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-12.mp3"></audio><div class="day-cap"><p class="day-tag">Day 12 of 13 &middot; Fri 13 Nov 2026 &middot; Munich</p><h3>Munich Departure</h3><p>One last morning in Munich, then homeward on SQ327.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+<div class="page day" data-i="14"><div class="video-wrap"><video class="day-video" controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/images/day-13.jpg"><source src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/videos/day-13.mp4" type="video/mp4"></video><div class="subtitle-overlay">Touching down at Changi for warm kaya toast,<br>we unpacked our mementos across the living room floor.</div></div><audio class="day-narr" preload="none" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/audio/narration-day-13.mp3"></audio><div class="day-cap"><p class="day-tag">Day 13 of 13 &middot; Sat 14 Nov 2026 &middot; Singapore</p><h3>Arrive Singapore</h3><p>Home again, with thirteen days of stories to tell.</p><p class="watch-note">Tap &#9654; on the video to watch this day move, with its narration.</p></div></div>
+</div>
+
+<div class="controls">
+  <button id="prevBtn" type="button">&lsaquo; Prev</button>
+  <span class="page-label" id="pageLabel"></span>
+  <button id="nextBtn" type="button">Next &rsaquo;</button>
+</div>
+
+<div class="music">
+  <p class="now"><b>Now playing:</b> <span id="nowPlaying">Across the Cobbled Square &mdash; Theme song for the trip</span></p>
+  <p><button class="track-btn" id="musicFab" type="button">Pause music</button></p>
+  <p class="hint">The theme song plays when the flipbook opens. When you play a day&rsquo;s video, the theme pauses and that day&rsquo;s narration plays instead, then the theme comes back. This flipbook streams its videos, narration and music from the web, so it needs an internet connection.</p>
+</div>
+
+<audio id="themeAudio" loop preload="auto" src="https://cdn.jsdelivr.net/gh/tjiufamily/travel-toons@main/music/across-the-cobbled-square.mp3"></audio>
+
+<script>
+var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+var N = pages.length;
+var cur = 0;
+var label = document.getElementById('pageLabel');
+var prevBtn = document.getElementById('prevBtn');
+var nextBtn = document.getElementById('nextBtn');
+function pageName(i){
+  if (i === 0) return 'Cover';
+  if (i === 1) return 'Dedication';
+  return 'Day ' + (i - 1) + ' of 13';
+}
+function render(){
+  pages.forEach(function(p, i){
+    p.classList.toggle('flipped', i < cur);
+    if (i < cur) p.style.zIndex = i + 1;
+    else if (i === cur) p.style.zIndex = N + 1;
+    else p.style.zIndex = N - i;
+  });
+  label.textContent = pageName(cur) + '  ·  ' + (cur + 1) + ' / ' + N;
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === N - 1;
+}
+function go(i){
+  stopAllDayMedia();
+  cur = Math.max(0, Math.min(N - 1, i));
+  render();
+}
+prevBtn.onclick = function(){ go(cur - 1); };
+nextBtn.onclick = function(){ go(cur + 1); };
+document.addEventListener('keydown', function(e){
+  if (e.key === 'ArrowLeft') go(cur - 1);
+  if (e.key === 'ArrowRight') go(cur + 1);
+});
+var startX = null, dragging = false;
+var book = document.getElementById('book');
+book.addEventListener('pointerdown', function(e){ startX = e.clientX; dragging = true; });
+book.addEventListener('pointerup', function(e){
+  if (!dragging || startX === null) return;
+  var dx = e.clientX - startX;
+  if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1));
+  dragging = false; startX = null;
+});
+book.addEventListener('pointercancel', function(){ dragging = false; startX = null;
+});
+book.addEventListener('click', function(e){
+  if (e.target.closest('video') || e.target.closest('.day-cap')) return;
+  var r = book.getBoundingClientRect();
+  var x = e.clientX - r.left;
+  if (x > r.width * 0.72) go(cur + 1);
+  else if (x < r.width * 0.28) go(cur - 1);
+});
+render();
+
+/* Theme song only, default ON. The theme pauses while a day video
+   plays, and comes back when the video ends, only if the user had
+   it on (userMusicOn). */
+var theme = document.getElementById('themeAudio');
+var fab = document.getElementById('musicFab');
+var userMusicOn = true;
+var dayVideos = Array.prototype.slice.call(document.querySelectorAll('.day-video'));
+var dayNarrs = Array.prototype.slice.call(document.querySelectorAll('.day-narr'));
+var daySubs = Array.prototype.slice.call(document.querySelectorAll('.subtitle-overlay'));
+function anyVideoPlaying(){
+  for (var i = 0; i < dayVideos.length; i++){
+    if (!dayVideos[i].paused && !dayVideos[i].ended) return true;
+  }
+  return false;
+}
+function anyNarrationPlaying(){
+  for (var i = 0; i < dayNarrs.length; i++){
+    if (!dayNarrs[i].paused && !dayNarrs[i].ended) return true;
+  }
+  return false;
+}
+function maybeResumeTheme(){
+  if (userMusicOn && !anyVideoPlaying() && !anyNarrationPlaying()){
+    theme.play().then(function(){
+      fab.textContent = 'Pause music';
+    }).catch(function(){});
+  }
+}
+function stopAllDayMedia(){
+  dayVideos.forEach(function(v){ if (!v.paused) v.pause(); });
+  dayNarrs.forEach(function(a){ if (!a.paused) a.pause(); });
+  daySubs.forEach(function(s){ s.classList.remove('show'); });
+  maybeResumeTheme();
+}
+dayVideos.forEach(function(v, i){
+  var a = dayNarrs[i], sub = daySubs[i];
+  v.addEventListener('play', function(){
+    if (!theme.paused) theme.pause();
+    a.currentTime = 0;
+    a.play().catch(function(){});
+    sub.classList.add('show');
+  });
+  v.addEventListener('pause', function(){
+    if (v.ended) return;
+    a.pause();
+    sub.classList.remove('show');
+    maybeResumeTheme();
+  });
+  v.addEventListener('ended', function(){
+    /* The narration can run up to 0.7s past the 10-second clip; let
+       its tail finish, and its own ended handler brings the theme
+       back. If the narration already ended, bring the theme back now. */
+    if (a.ended || a.paused){
+      sub.classList.remove('show');
+      maybeResumeTheme();
+    }
+  });
+  a.addEventListener('ended', function(){
+    sub.classList.remove('show');
+    maybeResumeTheme();
+  });
+});
+fab.onclick = function(){
+  userMusicOn = !userMusicOn;
+  if (userMusicOn){
+    maybeResumeTheme();
+    fab.textContent = 'Pause music';
+  } else {
+    theme.pause();
+    fab.textContent = 'Play theme song';
+  }
+};
+/* Theme song starts on load; if the browser blocks autoplay, the
+   button offers a tap to start it. */
+theme.play().then(function(){
+  fab.textContent = 'Pause music';
+}).catch(function(){
+  fab.textContent = 'Tap to play theme song';
+});
+</script>
+</body>
+</html>
