@@ -185,10 +185,12 @@ const TRIPS = {
       "title": "Highlights of Eastern Europe",
       "film": {
         "title": "Highlights of Eastern Europe \u2014 the film",
-        "file": "videos/film-highlights-eastern-europe.mp4",
+        "file": "videos/film-web.mp4",
         "duration": "2 minutes 10 seconds",
         "size": "about 37 MB",
-        "note": "All thirteen days in one film, with the narration and the theme song \"Across the Cobbled Square\" underneath, and subtitles throughout."
+        "note": "All thirteen days in one film, with the narration and the theme song \"Across the Cobbled Square\" underneath, and subtitles throughout.",
+        "downloadFile": "videos/film-highlights-eastern-europe.mp4",
+        "webSize": "about 12 MB"
       }
     }
   ]

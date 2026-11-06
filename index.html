@@ -335,15 +335,18 @@ async function loadTrip() {
   });
   build();
   /* Film: the full 13-day film, narration and theme song baked in with
-     subtitles burned in. The file is about 37 MB, over jsDelivr's 20 MB
-     cap, so it is served from the GitHub repo directly (RAW), the same
-     route as the flipbook download. The day clips are small enough for
-     jsDelivr and use asset() instead (see the Watch button below). */
+     subtitles burned in. The player uses a lighter web encode
+     (film-web.mp4, about 12 MB) served from jsDelivr like the pictures,
+     because the full-quality master (about 37 MB) is over jsDelivr's
+     20 MB cap and raw GitHub serves it as application/octet-stream,
+     which browsers will not play as video. The download button below
+     still gives the full-quality master from raw GitHub, where the
+     content type does not matter for a file save. */
   const film = TRIP.film;
   if (film) {
     document.getElementById('filmLede').textContent = film.note;
     const fv = document.getElementById('filmVideo');
-    fv.src = RAW + '/' + film.file;
+    fv.src = asset(film.file);
     fv.poster = asset(TRIP.days[0].image);
     document.getElementById('downloadFilm').textContent = '⬇ Download the film — ' + film.size;
   }
@@ -549,12 +552,14 @@ document.getElementById('dayVideo').addEventListener('play', () => {
   if (!audio.paused) { audio.pause(); setPausedUI(); }
 });
 
-/* Download the film: same fetch-and-save pattern as the flipbook, because
-   the 37 MB file is too big for jsDelivr and lives on raw GitHub. */
+/* Download the film: the full-quality master (about 37 MB). Same
+   fetch-and-save pattern as the flipbook, because the master is too big
+   for jsDelivr and lives on raw GitHub, where the content type does not
+   matter for a file save. */
 document.getElementById('downloadFilm').addEventListener('click', async () => {
   if (!TRIP || !TRIP.film) return;
   const btn = document.getElementById('downloadFilm');
-  const url = RAW + '/' + TRIP.film.file;
+  const url = RAW + '/' + (TRIP.film.downloadFile || TRIP.film.file);
   btn.disabled = true;
   btn.textContent = 'Downloading the film…';
   try {
